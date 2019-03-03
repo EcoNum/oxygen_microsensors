@@ -1,0 +1,51 @@
+---
+title: "Croissance de différentes espèces de coraux"
+author: "Jessica Save Garrido"
+output: html_notebook
+---
+
+
+```{r}
+library(readxl)
+croissance <- read_excel("../data/jess_poids.xlsx")
+View(croissance)
+```
+
+
+```{r}
+library(tidyverse)
+
+croissance$espece <- as.factor(croissance$espece)
+croissance$individue <- as.factor(croissance$individue)
+
+
+croissance %>%group_by(espece,individue)%>%mutate(ratio = poids / poids[1])->croissance
+
+croissance%>%mutate(ratio0 = ratio - 1)-> croissance
+croissance%>%mutate(temps = Date - Date[1])-> croissance
+
+ggplot(croissance, mapping = aes(x = temps, y = poids, color = espece, shape = individue))+
+  geom_point()
+ggplot(croissance, mapping = aes(x = Date, y = ratio0, color = espece))+
+  geom_point(aes(shape = individue))+
+  geom_smooth(method = "lm", formula = y ~ x )
+
+ggplot(data = filter(croissance, espece == "Pocilopova"), mapping = aes(x = Date, y = ratio0, color = espece))+
+  geom_point(aes(shape = individue))
+
+
+croissance%>% group_by(Date, espece, temps) %>% summarise(mean = mean(ratio0, na.rm = TRUE), sd = sd(ratio0, na.rm = TRUE)) -> croissance_red
+
+croissance_red%>%mutate(jour = temps/86400)-> croissance_red
+croissance_red$jour <-as.numeric(as.character(croissance_red$jour))
+
+
+ggplot(croissance_red, mapping = aes(x = jour, y = mean, color = espece, shape = espece))+
+  geom_point( size = 3)+
+  geom_errorbar(aes(ymin=mean-sd, ymax=mean+sd), width=.2, position=position_dodge(0.05)) +
+  labs(y = "Croissance moyenne", x = "Jour" )+
+  theme_classic()+
+  theme()
+
+```
+

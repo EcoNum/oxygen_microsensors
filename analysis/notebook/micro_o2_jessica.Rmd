@@ -1,0 +1,1141 @@
+---
+title: "Analyse des résultats obtenus avec la micro-électrode à oxygène"
+author: "Jessica Save Garrido & Engels Guyliann"
+output:
+  html_notebook: default
+  word_document: default
+  pdf_document: default
+  html_document: default
+abstract: Traitement généraux de l'ensemble des analyses réalisées dans le cadre du
+  TFE de Jessica Save Garrido portant sur l'impact d'un stress thermique sur la photosynthèse
+---
+
+
+
+```{r}
+source(file = "../scripts/micro_o2_jessica_phg.R")
+```
+
+
+# Mise au point de la micro-électrode à oxygène
+
+
+## Test 1 à test 4 : apprentissage de la méthode
+
+
+* Début dans l'eau 
+* Avancée progressive vers le coenasarc
+
+```{r, echo=FALSE, message=FALSE, results='hide'}
+t1 <-microO2_import(file = "../data/T1/T11210.txt")
+t2 <-microO2_import(file = "../data/T2/T21210.txt")
+t3 <-microO2_import(file = "../data/T3/T31210.txt")
+t4 <-microO2_import(file = "../data/T4/T41210_A.txt")
+```
+
+```{r}
+
+library(tidyverse)
+
+a <- ggplot(data = t1) +
+  geom_line(mapping = aes(x = time, y = O2)) +
+  ylim(c(6,12))
+b <- ggplot(data = t2) +
+  geom_line(mapping = aes(x = time, y = O2)) +
+  ylim(c(6,12))
+c <- ggplot(data = t3) +
+  geom_line(mapping = aes(x = time, y = O2)) +
+  ylim(c(6,12))
+d <- ggplot(data = t4) +
+  geom_line(mapping = aes(x = time, y = O2)) +
+  ylim(c(6,12))
+
+library(ggpubr)
+
+ggarrange(a,b,c,d)
+```
+
+# Test de reproductibilité
+
+* réaliser 4 mesures reproductible sur différentes zones de la bouture
+
+
+```{r, echo=FALSE, message=FALSE, results='hide'}
+t4a <-microO2_import(file = "../data/T4/T41210_A.txt")
+t4b <-microO2_import(file = "../data/T4/T41210_B.txt")
+t4c <-microO2_import(file = "../data/T4/T41210_C.txt")
+t4d <-microO2_import(file = "../data/T4/T41210_D.txt")
+```
+ 
+ * 0-50 dans l'eau
+ * 50-125 placement sur le coenasarc
+ * 125-... retour dans l'eau
+ 
+```{r}
+
+mouv <- c(50, 125)
+
+a <- ggplot(data = t4a) +
+  geom_line(mapping = aes(x = time, y = O2)) + 
+  ylim(5.8,9) +
+  geom_vline(xintercept = mouv, color = mouv)
+b <- ggplot(data = t4b) +
+  geom_line(mapping = aes(x = time, y = O2)) + 
+  ylim(5.8,9)+
+  geom_vline(xintercept = mouv, color = mouv)
+c <- ggplot(data = t4c) +
+  geom_line(mapping = aes(x = time, y = O2)) + 
+  ylim(5.8,9)+
+  geom_vline(xintercept = mouv, color = mouv)
+d <- ggplot(data = t4d) +
+  geom_line(mapping = aes(x = time, y = O2)) + 
+  ylim(5.8,9)+
+  geom_vline(xintercept = mouv, color = mouv)
+
+ggarrange(a,b,c,d, labels = "auto")
+```
+
+
+# Test 5 à test 10 : premier test sur le profil à 100 PAR
+
+* Variation du temps pour déterminer les variations du profil
+
+
+```{r, echo=FALSE, message=FALSE, results='hide'}
+t5 <-microO2_import(file = "../data/T5/T51210.txt")
+t6 <-microO2_import(file = "../data/T6/T61210.txt")
+#t7 <-microO2_import(file = "../data/T7/T71210.txt")
+  #rejeter car erreur : pas top avec mouvement de la microsonde
+t8 <-microO2_import(file = "../data/T8/T81310.txt")
+t9 <-microO2_import(file = "../data/T9/T91310.txt")
+t10 <-microO2_import(file = "../data/T10/T101310.txt")
+#t11 <-microO2_import(file = "../data/T10/T111310.txt")
+```
+
+```{r}
+#depart coenasarc
+#500 micro du coanasarc
+mouv <-c(25,50,75,100,125,200,225, 250, 275, 350, 375)
+a <- ggplot(t5)+
+  geom_line(mapping = aes(x = time, y = O2))+
+  geom_vline(xintercept = mouv, color = mouv)
+
+mouv <-c(25,50,75,100,125,150, 175, 200, 225, 250)
+b <- ggplot(t6)+
+  geom_line(mapping = aes(x = time, y = O2))+
+  geom_vline(xintercept = mouv, color = mouv)  
+
+mouv <-c(50,100,150,200, 250, 300, 350, 400, 450, 500, 550)
+c <-ggplot(t8)+
+  geom_line(mapping = aes(x = time, y = O2))+
+  geom_vline(xintercept = mouv, color = mouv) 
+
+mouv <-c(50,100,150,200, 250, 300, 350, 400, 450, 500, 550)
+d <-ggplot(t9)+
+  geom_line(mapping = aes(x = time, y = O2))+
+  geom_vline(xintercept = mouv, color = mouv) 
+
+mouv <-c(100,200,300, 400, 550)
+e <- ggplot(t10)+
+  geom_line(mapping = aes(x = time, y = O2))+
+  geom_vline(xintercept = mouv, color = mouv) 
+
+ggarrange(a,b,c,d,e, ncol = 2, nrow = 3, labels = "auto")
+```
+
+# Test12 : premier profil 0 PAR
+
+```{r, echo=FALSE, message=FALSE, results='hide'}
+t12 <-microO2_import(file = "../data/T12/T121310.txt")
+```
+
+
+* Adaptation 5 min dans le noir
+* depart coenasarc 
+* fin 100 $\mu m$ 
+
+
+```{r}
+#mouv <-c(100,200,300, 400, 500)
+#summary(t12)
+a <- ggplot(t12,mapping = aes(x = time, y = O2))+
+  geom_line() +
+  xlim (c(0,550)) +
+  geom_rect(xmin = 0, xmax = 100, ymin = 0, ymax = 9, fill = "red",  alpha = 0.005)+
+  geom_rect(xmin = 200, xmax = 300, ymin = 0, ymax = 9, fill = "red",  alpha = 0.005)+
+  geom_rect(xmin = 400, xmax = 500, ymin = 0, ymax = 9, fill = "red", alpha = 0.005)+
+  annotate("text", x = c(50, 250, 450), y = 4.5, label = "0 mm") +
+  annotate("text", x = c(150, 350, 530), y = 4.5, label = " + 0.1 mm")+
+  labs(x = "Oxygène dissous (mg/L)", y = "Temps (s)", caption = "Variation de l'oxygène dissous dans l'eau mesurée avec une microélectrode à oxygène placée \n sur le coenosarc (0 mm) et distant de ce dernier (0.1mm) dans l'obscurité")+
+  theme(plot.caption  = element_text(hjust = 0.5))
+a
+#ggsave(filename = "test12.png", plot = a, device = "png")
+```
+
+* Utilisation potentiel pour réaliser des régressions linéaires
+
+
+# Test 13 à test 15 
+
+*idem manip test5 à test10
+
+```{r, echo=FALSE, message=FALSE, results='hide'}
+t13 <-microO2_import(file = "../data/T13/T131810.txt")
+t14 <-microO2_import(file = "../data/T14/T141810.txt")
+t15 <-microO2_import(file = "../data/T15/T151810.txt")
+```
+```{r}
+mouv <-c(50, 100, 150 ,200, 225, 250, 350, 400)
+a <- ggplot(t13)+
+  geom_line(mapping = aes(x = time, y = O2))+
+  geom_vline(xintercept = mouv, color = mouv) 
+mouv <-c(50, 100, 150 ,200, 250)
+b <- ggplot(t14)+
+  geom_line(mapping = aes(x = time, y = O2))+
+  geom_vline(xintercept = mouv, color = mouv) 
+
+mouv <-c(50, 100, 125, 175 ,225)
+c <- ggplot(t15)+
+  geom_line(mapping = aes(x = time, y = O2))+
+  geom_vline(xintercept = mouv, color = mouv) 
+
+ggarrange(a,b,c, labels = "auto")
+```
+
+* lors du placement sur le coenasarc, on n'obtiens pas deux successivements les mêmes données
+
+
+# Test16  : premier test lumière on/off
+
+* sonde placée sur le coenasarc
+* temps non déterminé mais sur plateau graphique du programme de la sonde 
+
+```{r, echo=FALSE, message=FALSE, results='hide'}
+t16 <-microO2_import(file = "../data/T16/T161810.txt")
+```
+
+
+```{r}
+ggplot(t16)+
+  geom_line(mapping = aes(x = time, y = O2))+
+  geom_rect(xmin = -50, xmax = 50, ymin = 0, ymax = 10, fill = "red",  alpha = 0.005)+
+  geom_rect(xmin = 275, xmax = 525, ymin = 0, ymax = 10, fill = "red",  alpha = 0.005)+
+  geom_rect(xmin = 50, xmax = 275, ymin = 0, ymax = 10, fill = "blue",  alpha = 0.005)+
+  geom_rect(xmin = 525, xmax = 1000, ymin = 0, ymax = 10, fill = "blue",  alpha = 0.005)+
+  annotate("text", x = c(175, 650), y = 3.8, label = "0 PAR") +
+  annotate("text", x = c(0, 400), y = 3.8, label = " 100 PAR") +
+  labs(x = "Oxygène dissous (mg/L)", y = "Temps (s)", caption = "Variation de l'oxygène dissous mesurée avec une microélectrode à oxygène placée \n sur le coenosarc lors de l'exposition à 0 PAR (bleu) et 100 PAR (rouge)")+
+  theme(plot.caption  = element_text(hjust = 0.5))
+#ggsave(filename = "test16.png", device = "png")
+```
+
+# Test 17
+
+```{r, echo=FALSE, message=FALSE, results='hide'}
+t17 <-microO2_import(file = "../data/T17/T172010.txt")
+
+t19 <-microO2_import(file = "../data/T19/T192010.txt")
+
+t20 <-microO2_import(file = "../data/T20/T202010.txt")
+
+t21 <-microO2_import(file = "../data/T21/T212010.txt")
+```
+
+
+```{r}
+ggplot(t17)+
+  geom_line(mapping = aes(x = time, y = O2)) +
+  geom_rect(xmin = -50, xmax = 125, ymin = 0, ymax = 10, fill = "red",  alpha = 0.005)+
+  geom_rect(xmin = 125, xmax = 150, ymin = 0, ymax = 10, fill = "blue",  alpha = 0.005)+
+  geom_rect(xmin = 150, xmax = 175, ymin = 0, ymax = 10, fill = "green",  alpha = 0.005)+
+  geom_rect(xmin = 175, xmax = 200, ymin = 0, ymax = 10, fill = "blue",  alpha = 0.005)+
+  geom_rect(xmin = 200, xmax = 300, ymin = 0, ymax = 10, fill = "red",  alpha = 0.005)+
+  geom_rect(xmin = 300, xmax = 325, ymin = 0, ymax = 10, fill = "blue",  alpha = 0.005)+
+  geom_rect(xmin = 325, xmax = 350, ymin = 0, ymax = 10, fill = "green",  alpha = 0.005)+
+  geom_rect(xmin = 350, xmax = 375, ymin = 0, ymax = 10, fill = "blue",  alpha = 0.005)+
+  geom_rect(xmin = 375, xmax = 1000, ymin = 0, ymax = 10, fill = "red",  alpha = 0.005)+
+  labs(x = "Oxygène dissous (mg/L)", y = "Temps (s)", caption = "Variation de l'oxygène dissous mesurée avec une microélectrode à oxygène placée \n sur le coenosarc (rouge), à 0.1 mm (bleu), 0.2 mm (vert) de ce dernier à 100 PAR.")+
+  theme(plot.caption  = element_text(hjust = 0.5))
+  
+
+
+```
+
+```{r}
+a <- ggplot(t19)+
+  geom_line(mapping = aes(x = time, y = O2))+
+  geom_rect(xmin = -50, xmax = 125, ymin = 0, ymax = 10, fill = "Red",  alpha = 0.005)+
+  geom_rect(xmin = 125, xmax = 150, ymin = 0, ymax = 10, fill = "Blue",  alpha = 0.005)+
+  geom_rect(xmin = 150, xmax = 175, ymin = 0, ymax = 10, fill = "Green",  alpha = 0.005)+
+  geom_rect(xmin = 175, xmax = 200, ymin = 0, ymax = 10, fill = "Yellow",  alpha = 0.005)+
+  geom_rect(xmin = 200, xmax = 350, ymin = 0, ymax = 10, fill = "purple",  alpha = 0.005) +
+  geom_rect(xmin = 350, xmax = 375, ymin = 0, ymax = 10, fill = "Yellow",  alpha = 0.005) +
+  geom_rect(xmin = 375, xmax = 400, ymin = 0, ymax = 10, fill = "Green",  alpha = 0.005) +
+  geom_rect(xmin = 400, xmax = 425, ymin = 0, ymax = 10, fill = "Blue",  alpha = 0.005)+ 
+  geom_rect(xmin = 425, xmax = 1000, ymin = 0, ymax = 10, fill = "Red",  alpha = 0.005) +
+  labs(x = "Oxygène dissous (mg/L)", y = "Temps (s)")
+b <- ggplot(t20)+
+  geom_line(mapping = aes(x = time, y = O2))+
+  geom_rect(xmin = -50, xmax = 125, ymin = 0, ymax = 10, fill = "Red",  alpha = 0.005)+
+  geom_rect(xmin = 125, xmax = 150, ymin = 0, ymax = 10, fill = "Blue",  alpha = 0.005)+
+  geom_rect(xmin = 150, xmax = 175, ymin = 0, ymax = 10, fill = "Green",  alpha = 0.005)+
+  geom_rect(xmin = 175, xmax = 300, ymin = 0, ymax = 10, fill = "Yellow",  alpha = 0.005)+
+  geom_rect(xmin = 300, xmax = 325, ymin = 0, ymax = 10, fill = "Green",  alpha = 0.005)+
+  geom_rect(xmin = 325, xmax = 350, ymin = 0, ymax = 10, fill = "Blue",  alpha = 0.005) +
+  geom_rect(xmin = 350, xmax = 1000, ymin = 0, ymax = 10, fill = "Red",  alpha = 0.005) +
+  labs(x = "Oxygène dissous (mg/L)", y = "Temps (s)")
+
+library(ggpubr)
+ a <- ggarrange(a,b, ncol = 2, labels = "auto")
+ a + labs(x = "Oxygène dissous (mg/L)", y = "Temps (s)", caption = "Variation de l'oxygène dissous mesurée avec une microélectrode à oxygène placée \n sur le coenosarc (rouge), à 0.1 mm (bleu), 0.2 mm (vert), 0.3 mm (jaune) et 0.4 (mauve) de ce dernier à 100 PAR, \n sur une zone fortement pigmentée (A) et faiblement pigmentée (B).")+
+  theme(plot.caption  = element_text(hjust = 0.5, size = 10)) 
+```
+
+
+
+```{r}
+ggplot(t21)+
+  geom_line(mapping = aes(x = time, y = O2))+
+  geom_rect(xmin = -50, xmax = 150, ymin = 0, ymax = 10, fill = "Red",  alpha = 0.005)+
+  geom_rect(xmin = 150, xmax = 200, ymin = 0, ymax = 10, fill = "Blue",  alpha = 0.005)+
+  geom_rect(xmin = 200, xmax = 250, ymin = 0, ymax = 10, fill = "Green",  alpha = 0.005)+
+  geom_rect(xmin = 250, xmax = 300, ymin = 0, ymax = 10, fill = "Yellow",  alpha = 0.005)+
+  geom_rect(xmin = 300, xmax = 350, ymin = 0, ymax = 10, fill = "purple",  alpha = 0.005) +
+  geom_rect(xmin = 350, xmax = 500, ymin = 0, ymax = 10, fill = "sky blue",  alpha = 0.005) +
+  geom_rect(xmin = 500, xmax = 550, ymin = 0, ymax = 10, fill = "purple",  alpha = 0.005) +
+  geom_rect(xmin = 550, xmax = 600, ymin = 0, ymax = 10, fill = "Yellow",  alpha = 0.005) +
+  geom_rect(xmin = 600, xmax = 650, ymin = 0, ymax = 10, fill = "Green",  alpha = 0.005) +
+  geom_rect(xmin = 650, xmax = 700, ymin = 0, ymax = 10, fill = "Blue",  alpha = 0.005)+ 
+  geom_rect(xmin = 700, xmax = 1000, ymin = 0, ymax = 10, fill = "Red",  alpha = 0.005) +
+  labs(x = "Oxygène dissous (mg/L)", y = "Temps (s)")
+#t22 on laisse sur le coté car demande bcp de temps pour une résultat qui montre que au bout de 50 sec à 0.1 on a pas atteint le plateau 
+```
+
+
+# test distance par rapport au coenosarc
+
+```{r}
+t23 <-microO2_import(file = "../data/T23/T232010.txt")
+t24 <-microO2_import(file = "../data/T24/T242010.txt")
+t25 <-microO2_import(file = "../data/T25/T252010.txt")
+t26 <-microO2_import(file = "../data/T26/T262010.txt")
+t27 <-microO2_import(file = "../data/T27/T272010.txt")
+t28 <-microO2_import(file = "../data/T28/T282010.txt")
+```
+
+```{r}
+ggplot(t23)+
+  geom_line(mapping = aes(x = time, y = O2))+ 
+  geom_rect(xmin = -50, xmax = 50, ymin = 0, ymax = 12, fill = "Red",  alpha = 0.5)
+
+ggplot(t24)+
+  geom_line(mapping = aes(x = time, y = O2))+
+  annotate("rect", xmin = 3, xmax = 15, ymin = 8, ymax = 10, alpha = .2) +
+  annotate("rect", xmin = 20, xmax = 35, ymin = 8, ymax = 10, alpha = .3)+
+  annotate("rect", xmin = 40, xmax = 55, ymin = 8, ymax = 10, alpha = .4) +
+  annotate("rect", xmin = 60, xmax = 75, ymin = 8, ymax = 10, alpha = .1, fill = "red")
+
+ggplot(t25)+
+  geom_line(mapping = aes(x = time, y = O2))+ 
+  geom_rect(xmin = -50, xmax = 50, ymin = 0, ymax = 12, fill = "Red",  alpha = 0.005)
+
+ggplot(t26)+
+  geom_line(mapping = aes(x = time, y = O2))+ 
+  geom_rect(xmin = -50, xmax = 50, ymin = 0, ymax = 12, fill = "Red",  alpha = 0.005)
+
+dist <- data.frame(dist =  c(rep("0", 33), rep("0.1", 67), rep("0.2", 53)))
+t26_test <- bind_cols(t26, dist)
+
+
+
+
+
+library(dplyr)
+
+t25%>%filter(O2 < 8 ) ->t26_a
+t26%>%filter(O2 < 8 ) ->t26_a
+
+
+ggplot(t26_a)+
+  geom_line(mapping = aes(x = time, y = O2))+ 
+  geom_rect(xmin = -50, xmax = 50, ymin = 0, ymax = 12, fill = "Red",  alpha = 0.005)
+
+
+ggplot(t27)+
+  geom_line(mapping = aes(x = time, y = O2))+ 
+  geom_rect(xmin = -50, xmax = 50, ymin = 0, ymax = 12, fill = "Red",  alpha = 0.005)
+
+
+ggplot(t28)+
+  geom_line(mapping = aes(x = time, y = O2))+ 
+  geom_rect(xmin = -50, xmax = 50, ymin = 0, ymax = 12, fill = "Red",  alpha = 0.005)
+
+
+```
+
+* un delta de temps de 25 sec est trop court que pour permettre une stabilisation. ex t23 il faut etre  au dela de 300 à 500 $\mu m$  pour être dehors de l'influence de la production de l'holobionte. 
+
+
+# test lumière ON/OFF sur coenosarc
+
+```{r, echo=FALSE, message=FALSE, results='hide'}
+t29 <-microO2_import(file = "../data/T29/T292010.txt")
+t30 <-microO2_import(file = "../data/T30/T302010.txt")
+```
+
+```{r}
+ggplot(t29)+
+  geom_line(mapping = aes(x = time, y = O2))
+# ne donne pas grand chose d'exploitable
+ggplot(t30)+
+  geom_line(mapping = aes(x = time, y = O2))
+# ne donne pas grand chose d'exploitable
+```
+
+
+```{r}
+t31 <-microO2_import(file = "../data/T31/T312710.txt")
+t34 <-microO2_import(file = "../data/T34/T342710.txt")
+```
+```{r}
+library(tidyverse)
+ggplot(t31)+
+  geom_line(mapping = aes(x = time, y = O2))
+
+t31%>%filter(time > 120 , time <200) -> t_test
+
+ggplot(t_test)+
+  geom_line(mapping = aes(x = time, y = O2))
+
+ggplot(t_test)+
+  geom_line(mapping = aes(x = time, y = log(O2)))
+
+library("dplyr")
+
+t_test%>%mutate(log_O2 = log(O2)) ->t_test
+summary(lm. <- lm(log_O2 ~ time, data = t_test))
+
+
+lm. %>% (function(lm, model = lm[["model"]], vars = names(model))
+  ggplot(model, aes_string(x = vars[2], y = vars[1])) +
+    geom_point() + stat_smooth(method = "lm", formula = y ~ x))
+
+lm. %>% qplot(.fitted, .resid, data = .) +
+  geom_hline(yintercept = 0) +
+  geom_smooth(se = FALSE) +
+  xlab("Fitted values") +
+  ylab("Residuals") +
+  ggtitle("Residuals vs Fitted")
+
+#plot(lm., which = 2)
+lm. %>% qplot(sample = .stdresid, data = .) +
+  geom_abline(intercept = 0, slope = 1, colour = "darkgray") +
+  xlab("Theoretical quantiles") +
+  ylab("Standardized residuals") +
+  ggtitle("Normal Q-Q")
+
+#plot(lm., which = 3)
+lm. %>% qplot(.fitted, sqrt(abs(.stdresid)), data = .) +
+  geom_smooth(se = FALSE) +
+  xlab("Fitted values") +
+  ylab(expression(bold(sqrt(abs("Standardized residuals"))))) +
+  ggtitle("Scale-Location")
+
+ggplot(t34)+
+  geom_line(mapping = aes(x = time, y = O2))
+```
+
+
+```{r, echo=FALSE, message=FALSE, results='hide'}
+t35 <-microO2_import(file = "../data/T35/T352710.txt")
+t36 <-microO2_import(file = "../data/T36/T362710.txt")
+t37 <-microO2_import(file = "../data/T37/T372710.txt")
+t38 <-microO2_import(file = "../data/T38/T382710.txt")
+t39 <-microO2_import(file = "../data/T39/T392710.txt")
+```
+
+
+```{r}
+ggplot(t35)+
+  geom_line(mapping = aes(x = time, y = O2))
+#ggplot(t36)+
+#  geom_line(mapping = aes(x = time, y = O2))
+ggplot(t37)+
+  geom_line(mapping = aes(x = time, y = O2))
+ggplot(t38)+
+  geom_line(mapping = aes(x = time, y = O2))
+ggplot(t39)+
+  geom_line(mapping = aes(x = time, y = O2))
+
+```
+
+# L'expérience recommence à zéro
+
+Après s'être apperçu que l'on déplaçait la sonde de 1mm au lieu de 100 $\mu m$, on relance l'expérience
+
+```{r}
+t40 <-microO2_import2(file = "../data/T40/T40.txt")
+
+t42 <-microO2_import2(file = "../data/T42/T420311.txt")
+library(tidyverse)
+ggplot(t40)+
+  geom_line(mapping = aes(x = temps, y = O2))
+
+```
+
+Première critique de l'expérience, on peut observer que nous avons une première partie du graphique continu sur environ 300 seconde ( et donc $200 \mu m$)qui pourrait être interprété comme une couche d'eau stagnante entourant le corail. L'étape suivante est de réaliser à nouveau cette expérience et de la faire dans le sens contraire pour avancer vers le corail
+
+```{r}
+t42%>%filter(temps < 720)->t42
+ggplot(t42)+
+  geom_line(mapping = aes(x = temps, y = O2))+
+  geom_vline(xintercept = c(500, 720))
+```
+
+Première remarque sur l'expérience en partant du milieu et en avancant vers le coenosarc, on observe un augmentation progressive de l'oxygène puis on atteint un premier plateau lorsque la sonde touche le coenosarc et que la concentration réaugmente lorsque l'on touche pénetre les tissus. Il semble cependat qu'un sorte de couche stable se situa à proximité du coenosarc ( touche au visuelle à 500 secondes)
+
+
+
+```{r}
+t43 <-microO2_import2(file = "../data/T43/T430311.txt")
+t43$num <-as.numeric(t43$Date)
+
+library(readr)
+library(tidyverse)
+T430311_light <- read_csv("../data/T43/T430311_light.csv")
+T430311_light%>%rename(Date = time)->T430311_light
+T430311_light$num <-as.numeric(T430311_light$Date)
+#objectif faire coller le document sur le temps et le document sur l'éclairage
+t43_test <- left_join(t43, T430311_light, by = "num")
+
+#View(T430311_light)
+
+
+library(lubridate)
+T430311_light %>% separate(col = Date,into = c("year", "hour"), sep = " ", remove = FALSE) -> T430311_light
+
+t43 %>% separate(col = Date,into = c("year", "hour"), sep = " ", remove = FALSE) -> t43
+
+t43_test <- left_join(t43, T430311_light, by = "hour")
+t43_test %>% fill(light , .direction = "down")->t43_test
+t43_test$light[is.na(t43_test$light)] <- 1
+t43_test$light <- as.factor(t43_test$light)
+
+ggplot(data = t43_test, mapping = aes(x = temps, y = O2, color = light))+
+  geom_line(aes(group = 1)) +
+  theme_bw()
+
+
+
+```
+
+
+```{r}
+t45 <-microO2_import2(file = "../data/T45/T450711.txt")
+t46 <-microO2_import2(file = "../data/T46/T460711.txt")
+t45 <-microO2_import2(file = "../data/T45/T450711.txt")
+
+t53 <-microO2_import2(file = "../data/T53/T531011.txt")
+t54 <-microO2_import2(file = "../data/T54/T541011.txt")
+t55 <-microO2_import2(file = "../data/T55/T551011.txt")
+
+t57 <-microO2_import2(file = "../data/T57/T571311.txt")
+t58 <-microO2_import2(file = "../data/T58/T581311.txt")
+
+t60 <-microO2_import2(file = "../data/T60/T601311.txt")
+t61 <-microO2_import2(file = "../data/T61/T611311.txt")
+
+
+library(tidyverse)
+
+ggplot(t45)+
+  geom_line(mapping = aes(x = temps, y = O2))
+ggplot(t46)+
+  geom_line(mapping = aes(x = temps, y = O2))
+
+
+ggplot(t53)+
+  geom_line(mapping = aes(x = temps, y = O2))
+
+ggplot(t54)+
+  geom_line(mapping = aes(x = temps, y = O2))
+
+ggplot(t55)+
+  geom_line(mapping = aes(x = temps, y = O2))
+
+ggplot(t57)+
+  geom_line(mapping = aes(x = temps, y = O2))
+
+ggplot(t58)+
+  geom_line(mapping = aes(x = temps, y = O2))
+
+
+ggplot(t60)+
+  geom_line(mapping = aes(x = temps, y = O2))
+
+
+
+ggplot(t61)+
+  geom_line(mapping = aes(x = temps, y = O2))+
+  theme_bw()
+```
+
+# Expérience du 11 décembre 2017 
+
+* Utilisation de la nouvelle sonde à électrode
+
+On observe que l'utilisation d'une nouvelle microélectrode permet d'obtenir un signal plus nette.
+
+## Experience 70
+
+
+```{r}
+#package employé durant l'analyse
+
+library(readr)
+library(tidyverse)
+
+#importation
+t70 <-microO2_import2(file = "../data/T70/T701112.txt")
+#creation d'une nouvelle variable en character
+t70$time <-as.character(t70$Date)
+
+#importation et transfo de la date 
+T70_light <- read_csv("../data/T70/light.csv")
+T70_light%>%rename(Date = time)->T70_light
+T70_light$time <- as.character(T70_light$Date)
+
+
+#objectif faire coller le document sur le temps et le document sur l'éclairage
+t70_comb <- left_join(t70, T70_light, by = "time")
+t70_comb %>% fill(light , .direction = "down")->t70_comb
+
+#probleme spécifique à ce jeu de données
+#petite correction supplémentaires car jessica a d'abord lancé le programme de lumière avant l'enregistrement de la sond
+t70_comb$light[is.na(t70_comb$light)] <- 1
+t70_comb$light <- as.factor(t70_comb$light)
+
+# petit graphique des données avec la lumière 
+ggplot(data = t70_comb, mapping = aes(x = temps, y = O2, color = light))+
+  geom_line(aes(group = 1))
+```
+
+* On a un beau signal
+* On peut réduire le temps avant de débuter la manip à 20 secondes et plus 50 secondes
+* On peut réduire le temps d'éclairage à 15 secondes et plus 30 secondes
+
+## 71 
+
+* perte du fichier sur la lumière
+
+```{r}
+#importation
+t71 <-microO2_import2(file = "../data/T71/T711112.txt")
+ggplot(data = t71, mapping = aes(x = temps, y = O2))+
+  geom_line()
+```
+
+
+
+## 72 
+
+
+* Il y a un probleme entre l'eclairage et la microélectrode à voir
+
+
+```{r}
+#package employé durant l'analyse
+
+library(readr)
+library(tidyverse)
+
+#importation
+t72 <-microO2_import2(file = "../data/t72/t721112.txt")
+#creation d'une nouvelle variable en character
+t72$time <-as.character(t72$Date)
+
+#importation et transfo de la date 
+t72_light <- read_csv("../data/t72/light.csv")
+t72_light%>%rename(Date = time)->t72_light
+t72_light$time <- as.character(t72_light$Date)
+
+
+#objectif faire coller le document sur le temps et le document sur l'éclairage
+t72_comb <- left_join(t72, t72_light, by = "time")
+t72_comb %>% fill(light , .direction = "down")->t72_comb
+
+#probleme spécifique à ce jeu de données
+#petite correction supplémentaires car jessica a d'abord lancé le programme de lumière avant l'enregistrement de la sond
+t72_comb$light[is.na(t72_comb$light)] <- 1
+t72_comb$light <- as.factor(t72_comb$light)
+
+# petit graphique des données avec la lumière 
+ggplot(data = t72_comb, mapping = aes(x = temps, y = O2, color = light))+
+  geom_line(aes(group = 1))
+```
+
+
+```{r}
+#package employé durant l'analyse
+
+library(readr)
+library(tidyverse)
+
+#importation
+t73 <-microO2_import2(file = "../data/t73/t731112.txt")
+#creation d'une nouvelle variable en character
+t73$time <-as.character(t73$Date)
+
+#importation et transfo de la date 
+t73_light <- read_csv("../data/t73/light.csv")
+t73_light%>%rename(Date = time)->t73_light
+t73_light$time <- as.character(t73_light$Date)
+
+
+#objectif faire coller le document sur le temps et le document sur l'éclairage
+t73_comb <- left_join(t73, t73_light, by = "time")
+t73_comb %>% fill(light , .direction = "down")->t73_comb
+
+#probleme spécifique à ce jeu de données
+#petite correction supplémentaires car jessica a d'abord lancé le programme de lumière avant l'enregistrement de la sond
+t73_comb$light[is.na(t73_comb$light)] <- 1
+t73_comb$light <- as.factor(t73_comb$light)
+
+# petit graphique des données avec la lumière 
+ggplot(data = t73_comb, mapping = aes(x = temps, y = O2, color = light))+
+  geom_line(aes(group = 1))
+```
+
+
+## t74
+
+
+```{r}
+#package employé durant l'analyse
+
+library(readr)
+library(tidyverse)
+
+#importation
+t74 <-microO2_import2(file = "../data/t74/t741112.txt")
+#creation d'une nouvelle variable en character
+t74$time <-as.character(t74$Date)
+
+#importation et transfo de la date 
+t74_light <- read_csv("../data/t74/light.csv")
+t74_light%>%rename(Date = time)->t74_light
+t74_light$time <- as.character(t74_light$Date)
+
+
+#objectif faire coller le document sur le temps et le document sur l'éclairage
+t74_comb <- left_join(t74, t74_light, by = "time")
+t74_comb %>% fill(light , .direction = "down")->t74_comb
+
+#probleme spécifique à ce jeu de données
+#petite correction supplémentaires car jessica a d'abord lancé le programme de lumière avant l'enregistrement de la sond
+t74_comb$light[is.na(t74_comb$light)] <- 1
+t74_comb$light <- as.factor(t74_comb$light)
+
+# petit graphique des données avec la lumière 
+ggplot(data = t74_comb, mapping = aes(x = temps, y = O2, color = light))+
+  geom_line(aes(group = 1))
+```
+
+
+## t75
+
+* erreur sur la représentation graphique , je ne vois pas comment corriger cela
+
+
+
+```{r}
+#package employé durant l'analyse
+
+library(readr)
+library(tidyverse)
+
+#importation
+t75 <-microO2_import2(file = "../data/t75/t751112.txt")
+#creation d'une nouvelle variable en character
+t75$time <-as.character(t75$Date)
+
+#importation et transfo de la date 
+t75_light <- read_csv("../data/t75/light.csv")
+t75_light%>%rename(Date = time)->t75_light
+t75_light%>%mutate(Date = Date + 1) -> t75_light
+t75_light$time <- as.character(t75_light$Date)
+
+
+#objectif faire coller le document sur le temps et le document sur l'éclairage
+t75_comb <- left_join(t75, t75_light, by = "time")
+t75_comb %>% fill(light , .direction = "down")->t75_comb
+
+#probleme spécifique à ce jeu de données
+#petite correction supplémentaires car jessica a d'abord lancé le programme de lumière avant l'enregistrement de la sond
+t75_comb$light[is.na(t75_comb$light)] <- 1
+t75_comb$light <- as.factor(t75_comb$light)
+
+# petit graphique des données avec la lumière 
+ggplot(data = t75_comb, mapping = aes(x = temps, y = O2, color = light))+
+  geom_line(aes(group = 1))
+```
+
+
+
+## t76
+
+
+
+
+
+```{r}
+#package employé durant l'analyse
+
+library(readr)
+library(tidyverse)
+
+#importation
+t76 <-microO2_import2(file = "../data/t76/t761112.txt")
+#creation d'une nouvelle variable en character
+t76$time <-as.character(t76$Date)
+
+#importation et transfo de la date 
+t76_light <- read_csv("../data/t76/light.csv")
+t76_light%>%rename(Date = time)->t76_light
+#t76_light%>%mutate(Date = Date + 1) -> t76_light
+t76_light$time <- as.character(t76_light$Date)
+
+
+#objectif faire coller le document sur le temps et le document sur l'éclairage
+t76_comb <- left_join(t76, t76_light, by = "time")
+t76_comb %>% fill(light , .direction = "down")->t76_comb
+
+#probleme spécifique à ce jeu de données
+#petite correction supplémentaires car jessica a d'abord lancé le programme de lumière avant l'enregistrement de la sond
+t76_comb$light[is.na(t76_comb$light)] <- 1
+t76_comb$light <- as.factor(t76_comb$light)
+
+# petit graphique des données avec la lumière 
+ggplot(data = t76_comb, mapping = aes(x = temps, y = O2, color = light))+
+  geom_line(aes(group = 1))
+```
+
+
+
+
+
+## t77
+
+
+
+
+
+```{r}
+#package employé durant l'analyse
+
+library(readr)
+library(tidyverse)
+
+#importation
+t77 <-microO2_import2(file = "../data/t77/t771112.txt")
+#creation d'une nouvelle variable en character
+t77$time <-as.character(t77$Date)
+
+#importation et transfo de la date 
+t77_light <- read_csv("../data/t77/light.csv")
+t77_light%>%rename(Date = time)->t77_light
+#t77_light%>%mutate(Date = Date + 1) -> t77_light
+t77_light$time <- as.character(t77_light$Date)
+
+
+#objectif faire coller le document sur le temps et le document sur l'éclairage
+t77_comb <- left_join(t77, t77_light, by = "time")
+t77_comb %>% fill(light , .direction = "down")->t77_comb
+
+#probleme spécifique à ce jeu de données
+#petite correction supplémentaires car jessica a d'abord lancé le programme de lumière avant l'enregistrement de la sond
+t77_comb$light[is.na(t77_comb$light)] <- 1
+t77_comb$light <- as.factor(t77_comb$light)
+
+# petit graphique des données avec la lumière 
+ggplot(data = t77_comb, mapping = aes(x = temps, y = O2, color = light))+
+  geom_line(aes(group = 1))
+```
+
+
+
+
+## t78
+
+
+* Je n'ai pas de fichier sur la lumière
+
+
+```{r}
+#package employé durant l'analyse
+
+library(readr)
+library(tidyverse)
+
+#importation
+t78 <-microO2_import2(file = "../data/t78/t781112.txt")
+#creation d'une nouvelle variable en character
+t78$time <-as.character(t78$Date)
+
+#importation et transfo de la date 
+t78_light <- read_csv("../data/t78/light.csv")
+t78_light%>%rename(Date = time)->t78_light
+#t78_light%>%mutate(Date = Date + 1) -> t78_light
+t78_light$time <- as.character(t78_light$Date)
+
+
+#objectif faire coller le document sur le temps et le document sur l'éclairage
+t78_comb <- left_join(t78, t78_light, by = "time")
+t78_comb %>% fill(light , .direction = "down")->t78_comb
+
+#probleme spécifique à ce jeu de données
+#petite correction supplémentaires car jessica a d'abord lancé le programme de lumière avant l'enregistrement de la sond
+t78_comb$light[is.na(t78_comb$light)] <- 1
+t78_comb$light <- as.factor(t78_comb$light)
+
+# petit graphique des données avec la lumière 
+ggplot(data = t78_comb, mapping = aes(x = temps, y = O2, color = light))+
+  geom_line(aes(group = 1))
+```
+
+
+
+
+# Expérience du 12 décembre 2017 
+
+## t79
+
+
+```{r}
+#package employé durant l'analyse
+
+library(readr)
+library(tidyverse)
+
+#importation
+t79 <-microO2_import2(file = "../data/t79/t791212.txt")
+#creation d'une nouvelle variable en character
+t79$time <-as.character(t79$Date)
+
+#importation et transfo de la date 
+t79_light <- read_csv("../data/t79/light.csv")
+t79_light%>%rename(Date = time)->t79_light
+#t79_light%>%mutate(Date = Date + 1) -> t79_light
+t79_light$time <- as.character(t79_light$Date)
+
+
+#objectif faire coller le document sur le temps et le document sur l'éclairage
+t79_comb <- left_join(t79, t79_light, by = "time")
+t79_comb %>% fill(light , .direction = "down")->t79_comb
+
+#probleme spécifique à ce jeu de données
+#petite correction supplémentaires car jessica a d'abord lancé le programme de lumière avant l'enregistrement de la sond
+t79_comb$light[is.na(t79_comb$light)] <- 1
+t79_comb$light <- as.factor(t79_comb$light)
+
+# petit graphique des données avec la lumière 
+ggplot(data = t79_comb, mapping = aes(x = temps, y = O2, color = light))+
+  geom_line(aes(group = 1))
+```
+
+
+
+## t80
+```{r}
+#package employé durant l'analyse
+
+library(readr)
+library(tidyverse)
+
+#importation
+t80 <-microO2_import2(file = "../data/t80/t801212.txt")
+#creation d'une nouvelle variable en character
+t80$time <-as.character(t80$Date)
+
+#importation et transfo de la date 
+t80_light <- read_csv("../data/t80/light.csv")
+t80_light%>%rename(Date = time)->t80_light
+#t80_light%>%mutate(Date = Date + 1) -> t80_light
+t80_light$time <- as.character(t80_light$Date)
+
+
+#objectif faire coller le document sur le temps et le document sur l'éclairage
+t80_comb <- left_join(t80, t80_light, by = "time")
+t80_comb %>% fill(light , .direction = "down")->t80_comb
+
+#probleme spécifique à ce jeu de données
+#petite correction supplémentaires car jessica a d'abord lancé le programme de lumière avant l'enregistrement de la sond
+t80_comb$light[is.na(t80_comb$light)] <- 1
+t80_comb$light <- as.factor(t80_comb$light)
+
+# petit graphique des données avec la lumière 
+ggplot(data = t80_comb, mapping = aes(x = temps, y = O2, color = light))+
+  geom_line(aes(group = 1))
+```
+
+
+
+## t81
+```{r}
+#package employé durant l'analyse
+
+library(readr)
+library(tidyverse)
+
+#importation
+t81 <-microO2_import2(file = "../data/t81/t811212.txt")
+
+# petit graphique des données avec la lumière 
+ggplot(data = t81, mapping = aes(x = temps, y = O2))+
+  geom_line()
+```
+
+
+
+
+## t82
+
+```{r}
+#package employé durant l'analyse
+
+library(readr)
+library(tidyverse)
+
+#importation
+t82 <-microO2_import2(file = "../data/t82/t821212.txt")
+#creation d'une nouvelle variable en character
+t82$time <-as.character(t82$Date)
+
+#importation et transfo de la date 
+t82_light <- read_csv("../data/t82/light.csv")
+t82_light%>%rename(Date = time)->t82_light
+#t82_light%>%mutate(Date = Date + 1) -> t82_light
+t82_light$time <- as.character(t82_light$Date)
+
+
+#objectif faire coller le document sur le temps et le document sur l'éclairage
+t82_comb <- left_join(t82, t82_light, by = "time")
+t82_comb %>% fill(light , .direction = "down")->t82_comb
+
+#probleme spécifique à ce jeu de données
+#petite correction supplémentaires car jessica a d'abord lancé le programme de lumière avant l'enregistrement de la sond
+t82_comb$light[is.na(t82_comb$light)] <- 1
+t82_comb$light <- as.factor(t82_comb$light)
+
+# petit graphique des données avec la lumière 
+ggplot(data = t82_comb, mapping = aes(x = temps, y = O2, color = light))+
+  geom_line(aes(group = 1))
+```
+
+# t87 Vérification du profil en oxygène
+
+
+```{r}
+t87 <-microO2_import2(file = "../data/t87/t871912.txt")
+
+library(tidyverse)
+
+ggplot(t87, mapping = aes(x = temps, y = O2))+
+  geom_line()
+
+
+(max(t87$temps))/15
+
+N <- 10
+pas_de_distance <- 40
+distance_initiale <- -400
+pas_de_temps <- 15
+temps_initiale <-26
+
+
+n <-c(0:N)
+
+dist <- data_frame(n = n)
+
+dist%>% mutate(temps = (n*pas_de_temps)+temps_initiale)->dist
+
+dist%>%mutate(distance = (n*pas_de_distance)+distance_initiale)->dist
+
+
+t87$temps <- round(t87$temps, digits = 0)
+t87<- left_join(t87, dist, by = "temps")
+t87 <- tidyr::fill(t87, distance, .direction = "down") 
+
+
+ggplot(t87, mapping = aes(x = distance, y = O2))+
+  geom_line()+
+  geom_smooth()
+
+```
+
+# t88 Vérifiaction du profil suite de t77
+
+
+```{r}
+t88 <-microO2_import2(file = "../data/t88/t881912.txt")
+
+library(tidyverse)
+
+ggplot(t88, mapping = aes(x = temps, y = O2))+
+  geom_line()
+
+(max(t88$temps)-25)/15
+
+N <- 30
+pas_de_distance <- 10
+distance_initiale <- -300
+pas_de_temps <- 15
+temps_initiale <-26
+
+
+n <-c(0:N)
+
+dist <- data_frame(n = n)
+
+dist%>% mutate(temps = (n*pas_de_temps)+temps_initiale)->dist
+
+dist%>%mutate(distance = (n*pas_de_distance)+distance_initiale)->dist
+
+
+t88$temps <- round(t88$temps, digits = 0)
+
+dist$temps <-as.character(dist$temps)
+## Recodage de dist$temps
+dist$temps <- recode(dist$temps,
+               "221" = "222",
+               "236" = "237",
+               "251" = "252",
+               "266" = "267",
+               "281" = "282",
+               "296" = "297",
+               "311" = "312",
+               "326" = "327")
+dist$temps <- as.numeric(dist$temps)
+
+
+t88<- left_join(t88, dist, by = "temps")
+t88 <- tidyr::fill(t88, distance, .direction = "down") 
+
+t88$dist_verif <- as.factor(t88$distance)
+levels(t88$dist_verif)
+
+ggplot(t88, mapping = aes(x = distance, y = O2))+
+  geom_line()+
+  geom_smooth()
+```
+
+
+# t89 variation de l'intensité de la lumière 
+
+```{r}
+t96 <-microO2_import2(file = "../data/t96/962112.txt")
+
+ggplot(t96, mapping = aes(x = temps, y = O2))+
+  geom_line()
+```
+

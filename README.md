@@ -27,3 +27,8 @@ Ce dépot couvre une partie des expériences réalisées par Jessica Save Garrid
 en vue de l’obtention du grade académique du bachelier en agronomie orientation environnement durant l'année académique 2017-2018 portant le nom suivant :
 
 -   Mise en place d’une technique de mesure de photosynthèse chez les coraux scléractiniaires : application à *Galaxea fascicularis* (L.) 1767
+
+News
+----
+
+Suite aux travaux de Jessica Save Garrido, il est décidé de mettre en suspend les travaux sur ces outils.

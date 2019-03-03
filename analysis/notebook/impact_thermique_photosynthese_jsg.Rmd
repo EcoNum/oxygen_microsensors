@@ -1,0 +1,358 @@
+---
+title: "Impact thermique sur la photosynthèse chez *Galaxea fascicularis*"
+author: "Jessica Save Garrido, Antoine Batigny, Guyliann Engels & Philippe Grosjean"
+output:
+  word_document: default
+  html_notebook: default
+  pdf_document: default
+abstract: Sélection des expériences intéressantes et pertinentes provenant du documents
+  micro_o2_jessica.rmd afin d'être employé dans les résultats du stages et du mémoire
+  de Jessica Save Garrido
+---
+
+# Introduction 
+
+il est décidé de garder un template graphique cohérent et similaire pour l'ensemble des documents. 
+
+Les graphiques dans le manuscrit seront : 
+
+* en noir et blanc pour limiter le coup de l'impression 
+
+
+
+# Graphiques pour le manuscrits
+
+```{r}
+source("../scripts/micro_o2_jessica_phg.R")
+library(tidyverse)
+```
+
+## Mesure au noir
+
+L'expérience **t12** consiste dans : 
+
+* une adaptation au noir de 5 minutes puis du déplacement de la microélectrode du coenosarc à 1 millimètre de distance de ce dernier à plusieurs reprises.
+
+
+```{r}
+t12 <-microO2_import2(file = "../data/T12/T121310.txt")
+vec <- data_frame( temps = c(0, 99, 202, 300, 404), distance = c(0, 1, 0, 1, 0))
+vec$distance <- as.factor(vec$distance)
+
+t12 <- left_join(t12, vec, by = "temps")
+t12 %>% fill(distance , .direction = "down")->t12
+
+
+ggplot(data = t12)+
+  geom_line(mapping = aes(x = temps, y = O2, color = distance, group = 1)) +
+  theme_classic() +
+  labs( y = "Concentration en oxygène dissous (mg/L)", x = "Temps (s)", caption = "Variation de l'oxygène dissous dans l'eau  \n mesurée avec une microèlectrode à oxygène placée \n sur le coenosarc (0mm) et distant de ce dernier (0.1mm) dans l'obscurité ") +
+  theme(plot.caption = element_text(hjust = 0.5))
+```
+
+## 
+
+
+```{r}
+t19 <-microO2_import2(file = "../data/T19/T192010.txt") 
+#vec <- data_frame( vec = c(0:367))
+library(tibble)
+dist <- tribble(
+  ~temps,~distance,
+  0, 0,
+  117.01, 1,
+  149.98, 2,
+  175.50, 3,
+  199.51, 4,
+  349.75, 3,
+  375.28, 2,
+  399.43, 1,
+  425, 0)
+
+t19 <- dplyr::left_join(t19, dist, by = "temps")
+t19 <- tidyr::fill(t19, distance, .direction = "down") 
+t19$distance <-as.factor(t19$distance)
+
+ggplot(data = t19)+
+  geom_line(mapping = aes(x = temps, y = O2, color = distance,  group = 1)) +
+  theme_classic() +
+    scale_color_discrete( name = "Distance", breaks = c( "0", "1", "2", "3", "4"), labels = c("0 mm", "1 mm", "2 mm", "3 mm", "4 mm")) +
+  labs( y = "Concentration en oxygène dissous (mg/L)", x = "Temps (s)")
+```
+
+```{r}
+t20 <-microO2_import2(file = "../data/T20/T202010.txt")
+
+dist <- tribble(
+  ~temps,~distance,
+  0, 0,
+  125.36, 1,
+  149.39, 2,
+  174.94, 3,
+  200.58, 4,
+  349.47, 3,
+  374.99, 2,
+  400.54, 1,
+  424.57, 0)
+
+
+t20 <- dplyr::left_join(t20, dist, by = "temps")
+t20 <- tidyr::fill(t20, distance, .direction = "down") 
+t20$distance <-as.factor(t20$distance)
+
+
+ggplot(data = t20)+
+  geom_line(mapping = aes(x = temps, y = O2, color = distance,  group = 1)) +
+  theme_classic() +
+    scale_color_discrete( name = "Distance", breaks = c( "0", "1", "2", "3", "4"), labels = c("0 mm", "1 mm", "2 mm", "3 mm", "4 mm")) +
+  labs( y = "Concentration en oxygène dissous (mg/L)", x = "Temps (s)")
+
+```
+
+
+```{r}
+t21 <-microO2_import2(file = "../data/T21/T212010.txt")
+
+dist <- tribble(
+  ~temps,~distance,
+  0, 0,
+  144.02, 1,
+  199.52, 2,
+  249.22, 3,
+  300.37, 4,
+  350.03, 5,
+  500.29, 4,
+  549.95, 3,
+  599.63, 2,
+  649.36, 1, 
+  695.86, 0)
+
+
+t21 <- dplyr::left_join(t21, dist, by = "temps")
+t21 <- tidyr::fill(t21, distance, .direction = "down") 
+t21$distance <-as.factor(t21$distance)
+
+
+ggplot(data = t21)+
+  geom_line(mapping = aes(x = temps, y = O2, color = distance,  group = 1)) +
+  theme_classic() +
+  scale_color_discrete( name = "Distance", breaks = c( "0", "1", "2", "3", "4", "5"), labels = c("0 mm", "1 mm", "2 mm", "3 mm", "4 mm", "5 mm"))  +
+  labs( y = "Concentration en oxygène dissous (mg/L)", x = "Temps (s)", caption = "Variation de l'oxygène dissous en fonction de la profondeur \n du tissu grâce à un mouvement de 0,1mm toutes les 50 secondes") +
+  theme(plot.caption = element_text(hjust = 0.5))
+
+```
+
+
+```{r}
+t28 <-microO2_import2(file = "../data/T28/T282010.txt")
+
+dist <- tribble(
+  ~temps,~distance,
+  0, 0,
+  46.41, 1,
+  148.32, 2,
+  250.32, 3)
+
+
+t28 <- dplyr::left_join(t28, dist, by = "temps")
+t28 <- tidyr::fill(t28, distance, .direction = "down") 
+t28$distance <-as.factor(t28$distance)
+
+
+ggplot(data = t28)+
+  geom_line(mapping = aes(x = temps, y = O2, color = distance,  group = 1)) +
+  theme_classic() +
+  scale_color_discrete( name = "Distance", breaks = c( "0", "1", "2", "3"), labels = c("0 mm", "1 mm", "2 mm", "3 mm"))  +
+  labs( y = "Concentration en oxygène dissous (mg/L)", x = "Temps (s)", caption = "Détermination de l'épaiseur de la couche d'eau \n stagnante grâce à un mouvement de 0,1mm toutes les 100 secondes") +
+  theme(plot.caption = element_text(hjust = 0.5))
+
+```
+
+
+
+```{r}
+t40 <-microO2_import2(file = "../data/T40/T40.txt")
+ggplot(data = t40)+
+  geom_line(mapping = aes(x = temps, y = O2)) +
+  theme_classic()+
+  labs( y = "Concentration en oxygène dissous (mg/L)", x = "Temps (s)")
+```
+
+
+
+
+
+
+```{r}
+t31 <-microO2_import2(file = "../data/T31/T312710.txt")
+
+dist <- tribble(
+  ~temps,~distance,
+  0, 0,
+  100.89, 1,
+  400.05, 0,
+  780.88, 1,
+  1030.85, 0)
+
+
+t31 <- dplyr::left_join(t31, dist, by = "temps")
+t31 <- tidyr::fill(t31, distance, .direction = "down") 
+t31$distance <-as.factor(t31$distance)
+
+
+ggplot(data = t31)+
+  geom_line(mapping = aes(x = temps, y = O2, color = distance,  group = 1)) +
+  theme_classic() +
+  scale_color_discrete( name = "PAR", breaks = c( "1", "0"), labels = c( "0", "100")) +
+  labs( y = "Concentration en oxygène dissous (mg/L)", x = "Temps (s)", caption = "Variation d'oxygène dissout lors d'une alternance de 0PAR/100PAR ") +
+  theme(plot.caption = element_text(hjust = 0.5))
+```
+
+
+
+```{r}
+t43 <-microO2_import2(file = "../data/T43/T430311.txt")
+t43$num <-as.numeric(t43$Date)
+T430311_light <- read_csv("../data/T43/T430311_light.csv")
+
+T430311_light%>%rename(Date = time)->T430311_light
+T430311_light$num <-as.numeric(T430311_light$Date)
+#objectif faire coller le document sur le temps et le document sur l'éclairage
+t43_test <- left_join(t43, T430311_light, by = "num")
+#View(T430311_light)
+library(lubridate)
+T430311_light %>% separate(col = Date,into = c("year", "hour"), sep = " ", remove = FALSE) -> T430311_light
+t43 %>% separate(col = Date,into = c("year", "hour"), sep = " ", remove = FALSE) -> t43
+t43_test <- left_join(t43, T430311_light, by = "hour")
+t43_test %>% fill(light , .direction = "down")->t43_test
+t43_test$light[is.na(t43_test$light)] <- 1
+t43_test$light <- as.factor(t43_test$light)
+t43_test$light <-factor(t43_test$light, levels = c("1", "0"), ordered = TRUE)
+ggplot(data = t43_test, mapping = aes(x = temps, y = O2, color = light))+
+  geom_line(aes(group = 1)) +
+  theme_classic()+
+  scale_color_discrete( name = "PAR", breaks = c("0", "1"), labels = c( "0", "100"))+
+  labs( y = "Concentration en oxygène dissous (mg/L)", x = "Temps (s)", caption = "Détermination de la pente \n crée par une alternance de 0PAR/100PAR sur le coenosarc") +
+  theme(plot.caption = element_text(hjust = 0.5))
+```
+
+
+```{r}
+#package employé durant l'analyse
+
+library(readr)
+library(tidyverse)
+
+#importation
+t43 <-microO2_import2(file = "../data/T43/T430311.txt")
+#creation d'une nouvelle variable en character
+t43$time <-as.character(t43$Date)
+
+#importation et transfo de la date 
+T43_light <- read_csv("../data/T43/T430311_light.csv")
+T43_light%>%rename(Date = time)->T43_light
+T43_light$time <- as.character(T43_light$Date)
+
+
+#objectif faire coller le document sur le temps et le document sur l'éclairage
+t43_comb <- left_join(t43, T43_light, by = "time")
+t43_comb %>% fill(light , .direction = "down")->t43_comb
+
+#probleme spécifique à ce jeu de données
+#petite correction supplémentaires car jessica a d'abord lancé le programme de lumière avant l'enregistrement de la sond
+t43_comb$light[is.na(t43_comb$light)] <- 1
+t43_comb$light <- as.factor(t43_comb$light)
+
+# petit graphique des données avec la lumière 
+ggplot(data = t43_comb, mapping = aes(x = temps, y = O2, color = light))+
+  geom_line(aes(group = 1))
+
+
+# extraction du tableau complet le temps en seconde entre l'allumage et l'éclairage 
+t43_comb%>%filter(!is.na(Date.y)) -> test
+x <- test$temps
+
+
+## Tentons de calculer des régressions linéaires 
+
+
+library("dplyr")
+summary(lm1 <- lm(O2 ~ temps, data = filter(t43_comb, temps > (x[1]+2) & temps < (x[1]+22))))
+lm1 %>% (function(lm, model = lm[["model"]], vars = names(model))
+  ggplot(model, aes_string(x = vars[2], y = vars[1])) +
+    geom_point() + stat_smooth(method = "lm", formula = y ~ x))
+
+#analyses des résidus
+#plot(lm., which = 1)
+lm1 %>% qplot(.fitted, .resid, data = .) +
+  geom_hline(yintercept = 0) +
+  geom_smooth(se = FALSE) +
+  xlab("Fitted values") +
+  ylab("Residuals") +
+  ggtitle("Residuals vs Fitted")
+
+#plot(lm., which = 2)
+lm1 %>% qplot(sample = .stdresid, data = .) +
+  geom_abline(intercept = 0, slope = 1, colour = "darkgray") +
+  xlab("Theoretical quantiles") +
+  ylab("Standardized residuals") +
+  ggtitle("Normal Q-Q")
+
+#plot(lm., which = 3)
+lm1 %>% qplot(.fitted, sqrt(abs(.stdresid)), data = .) +
+  geom_smooth(se = FALSE) +
+  xlab("Fitted values") +
+  ylab(expression(bold(sqrt(abs("Standardized residuals"))))) +
+  ggtitle("Scale-Location")
+
+#calcul des 9 regressions
+
+summary(lm1 <- lm(O2 ~ temps, data = filter(t43_comb, temps > (x[1]+2) & temps < (x[1]+22))))
+lm1$coefficients[[2]] -> a1
+summary(lm2 <- lm(O2 ~ temps, data = filter(t43_comb, temps > (x[2]+2) & temps < (x[2]+22))))
+lm2$coefficients[[2]] -> a2
+summary(lm3 <- lm(O2 ~ temps, data = filter(t43_comb, temps > (x[3]+2) & temps < (x[3]+22))))
+lm3$coefficients[[2]] -> a3
+summary(lm4 <- lm(O2 ~ temps, data = filter(t43_comb, temps > (x[4]+2) & temps < (x[4]+22))))
+lm4$coefficients[[2]] -> a4
+summary(lm5 <- lm(O2 ~ temps, data = filter(t43_comb, temps > (x[5]+2) & temps < (x[5]+22))))
+lm5$coefficients[[2]] -> a5
+summary(lm6 <- lm(O2 ~ temps, data = filter(t43_comb, temps > (x[6]+2) & temps < (x[6]+22))))
+lm6$coefficients[[2]] -> a6
+summary(lm7 <- lm(O2 ~ temps, data = filter(t43_comb, temps > (x[7]+2) & temps < (x[7]+22))))
+lm7$coefficients[[2]] -> a7
+summary(lm8 <- lm(O2 ~ temps, data = filter(t43_comb, temps > (x[8]+2) & temps < (x[8]+22))))
+lm8$coefficients[[2]] -> a8
+summary(lm9 <- lm(O2 ~ temps, data = filter(t43_comb, temps > (x[9]+2) & temps < (x[9]+22))))
+lm9$coefficients[[2]] -> a9
+#tableau des 9 régresssions uniquement coefficient 
+test <-data_frame(model = c("lm1" , "lm2" , "lm3", "lm4", "lm5","lm6" , "lm7", "lm8", "lm9") , coef = c(a1, a2, a3, a4, a5, a6, a7, a8, a9 ))
+mean(test)
+#visualisation graphique
+p6 <-ggplot(data = t43_comb, mapping = aes(x = temps, y = O2, color = light))+
+  geom_line(aes(group = 1)) +
+  geom_smooth(data = filter(t43_comb, temps > (x[1]+2) & temps < (x[1]+12)), method = "lm" ,formula = y ~ x, color = 2) +
+  geom_smooth(data = filter(t43_comb, temps > (x[2]+2) & temps < (x[2]+12)), method = "lm" ,formula = y ~ x, color = 3) +
+  geom_smooth(data = filter(t43_comb, temps > (x[3]+2) & temps < (x[3]+12)), method = "lm" ,formula = y ~ x, color = 2) +
+  geom_smooth(data = filter(t43_comb, temps > (x[4]+2) & temps < (x[4]+12)), method = "lm" ,formula = y ~ x, color = 3) +
+  geom_smooth(data = filter(t43_comb, temps > (x[5]+2) & temps < (x[5]+12)), method = "lm" ,formula = y ~ x, color = 2) +
+  geom_smooth(data = filter(t43_comb, temps > (x[6]+2) & temps < (x[6]+12)), method = "lm" ,formula = y ~ x, color = 3) +
+  geom_smooth(data = filter(t43_comb, temps > (x[7]+2) & temps < (x[7]+12)), method = "lm" ,formula = y ~ x, color = 2) +
+  geom_smooth(data = filter(t43_comb, temps > (x[8]+2) & temps < (x[8]+12)), method = "lm" ,formula = y ~ x, color = 3) +
+  geom_smooth(data = filter(t43_comb, temps > (x[9]+2) & temps < (x[9]+12)), method = "lm" ,formula = y ~ x, color = 2) +
+  theme_classic()+
+  scale_color_discrete( name = "PAR", breaks = c("0", "1"), labels = c( "0", "100"))+
+  labs( y = "Concentration en oxygène dissous (mg/L)", x = "Temps (s)", caption = "Détermination de la pente \n crée par une alternance de 0PAR/100PAR sur le coenosarc") +
+  theme(plot.caption = element_text(hjust = 0.5))
+p6
+
+```
+
+
+```{r}
+knitr::kable(test)
+```
+
+
+
+

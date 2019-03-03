@@ -1,0 +1,124 @@
+---
+title: "Etude de l'activité photosynthétique sur *Galaxea fascicularis* via une microélectrode à oxygène"
+author: "Jessica Save Garrido"
+date: ''
+output:
+  beamer_presentation:
+    df_print: kable
+    fonttheme: serif
+fontsize: 9pt
+subtitle: Première présentation \break Mise au point de la microélectrode \vfill \includegraphics[width=.16\textwidth,height=.2\textheight]{template/EcoNum-logo.pdf}
+fontfamily: mathpazo
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+
+```{r, echo=FALSE, message=FALSE, results='hide'}
+#Function du script
+source("../../scripts/microO2.R")
+#Fonction retravaillé
+microO2_import2  <- function(file){
+  X <- read.table(file = file, skip = 13, sep = '\t', header = TRUE)
+  X <- X[ , c(1:3,5, 13, 15)]
+  X <- tidyr::unite(X, Date, c(1,2), sep = " ")
+  X$Date <- as.POSIXct(X$Date, format = "%d.%m.%Y %H:%M:%S")
+  X <- dplyr::rename( X, temps = Time..s., O2 = Ch1, P = "X.mbar.", T = "X.C...C.")
+}
+library(tidyverse)
+library(cowplot)
+library(ggpubr)
+
+
+
+
+```
+
+# Profil en oxygène en partant du coenosarc vers le milieu
+
+### Pas de temps de 25 secondes
+
+```{r, echo=FALSE, message=FALSE, results='hide'}
+t19 <-microO2_import2(file = "../../data/T19/T192010.txt")
+ggplot(t19)+
+  geom_line(mapping = aes(x = temps, y = O2))+
+  geom_vline(xintercept = c( 150, 175, 375, 400), linetype = "dotted")+
+  geom_vline(xintercept = c(125, 200, 350, 425), linetype = "longdash")+
+  labs(y = "Oxygène dissous (mg/L)", x = "Temps (s)", title = "Profil en oxygène dissous du coenosarc à une distance maximale \n de 0.4mm de ce dernier par pas de temps régulier") +
+  annotate("text", x = c(50, 275, 500), y = 6.8, label = c("0.0mm", "0.4mm", "0.0mm"))
+
+```
+
+
+### Pas de temps de 50 secondes
+
+```{r, echo=FALSE, message=FALSE, results='hide'}
+t21 <-microO2_import2(file = "../../data/T21/T212010.txt")
+ggplot(t21)+
+  geom_line(mapping = aes(x = temps, y = O2))+
+  geom_vline(xintercept = c(150, 200, 250, 300, 350, 500, 550, 600, 650, 700), linetype = "dotted")+
+  geom_vline(xintercept = c(150, 350, 500, 700), linetype = "longdash")+
+  annotate("text", x = c(50, 425, 800), y = 6.8, label = c("0.0mm", "0.5mm", "0.0mm" ))+
+  labs(y = "Oxygène dissous (mg/L)", x = "Temps (s)", title = "Profil en oxygène dissous du coenosarc à une distance maximale \n de 0.5mm de ce dernier par pas de temps régulier")
+
+
+```
+
+### Pas de temps de 100 secondes
+
+
+```{r, echo=FALSE, message=FALSE, results='hide'}
+t28 <-microO2_import2(file = "../../data/T28/T282010.txt")
+ggplot(t28)+
+  geom_line(mapping = aes(x = temps, y = O2))+
+  labs(y = "Oxygène dissous (mg/L)", x = "Temps (s)", title = "Profil en oxygène dissous du coenosarc à une distance maximale \n de 0.3mm de ce dernier par pas de temps régulier") +
+  geom_vline(xintercept = c(50,150, 250), linetype = "dotted")+ 
+  annotate("text", x = c(25, 100, 200, 300), y = 6.8, label = c("0mm", "0.1mm", "0.2mm", "0.3mm" ))
+```
+
+
+# Profil en oxygène mesuré sur le coenosarc à différents PAR
+
+### Pas de temps variable
+
+```{r, echo=FALSE, message=FALSE, results='hide'}
+t31 <-microO2_import2(file = "../../data/T31/T312710.txt")
+ggplot(t31)+
+  geom_line(mapping = aes(x = temps, y = O2))+
+  labs(y = "Oxygène dissous (mg/L)", x = "Temps (s)", title = "Profil en oxygène dissous mesuré sur le coenosarc \n à différentes intensités lumineuses", subtitle = " Détermination du temps de stabilisation", caption = "Le temps de stabilisation est d'environ 300 secondes") +
+  geom_vline(xintercept = c(100, 775), linetype = "dotted")+ 
+  geom_vline(xintercept = c(400,1040), linetype = "longdash") +
+  theme(plot.subtitle = element_text(hjust = 0.5), plot.caption = element_text(hjust = 0.5)) +
+annotate("text", x = c(25, 250, 600, 900, 1200), y = 4.8, label = c("100 PAR", "0 PAR","100 PAR", "0 PAR", "100 PAR"))
+```
+
+### Pas de temps de 250 secondes
+
+```{r, echo=FALSE, message=FALSE, results='hide'}
+t38 <-microO2_import2(file = "../../data/T38/T382710.txt")
+ggplot(t38)+
+  geom_line(mapping = aes(x = temps, y = O2))+
+  labs(y = "Oxygène dissous (mg/L)", x = "Temps (s)", title = "Profil en oxygène dissous mesuré sur le coenosarc \n à différentes intensités lumineuses") +
+  geom_vline(xintercept = c(100, 600), linetype = "dotted")+ 
+  geom_vline(xintercept = c(350), linetype = "longdash") +
+annotate("text", x = c(25, 225, 500, 700), y = 7.2, label = c("100 PAR", "0 PAR","100 PAR", "0 PAR"))
+```
+
+
+### Arrêt de la filtration pour stabiliser le signal
+
+```{r, echo=FALSE, message=FALSE, results='hide'}
+t39 <-microO2_import2(file = "../../data/T39/T392710.txt")
+ggplot(t39)+
+  geom_line(mapping = aes(x = temps, y = O2))+
+  labs(y = "Oxygène dissous (mg/L)", x = "Temps (s)", title = "Profil en oxygène dissous mesuré sur le coenosarc \n à différentes intensités lumineuses", subtitle = "Arrêt de la filtration pour la prise de mesure") +
+  geom_vline(xintercept = c(225, 1460), linetype = "dotted")+ 
+  geom_vline(xintercept = c(840), linetype = "longdash") +
+  theme(plot.subtitle = element_text(hjust = 0.5)) +
+  annotate("text", x = c(125, 500, 1250), y = 3.8, label = c("100 PAR", "0 PAR","100 PAR"))
+```
+

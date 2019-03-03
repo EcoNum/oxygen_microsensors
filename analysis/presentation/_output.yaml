@@ -1,0 +1,12 @@
+beamer_presentation:
+  df_print: kable
+  fonttheme: serif
+  keep_tex: no
+  slide_level: 3
+  highlight: tango
+  fig_width: 8
+  fig_height: 4.5
+  fig_crop: true
+  fig_caption: true
+  includes:
+    in_header: "template/_header.tex"

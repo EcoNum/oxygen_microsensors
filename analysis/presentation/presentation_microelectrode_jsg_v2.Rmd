@@ -1,0 +1,23 @@
+---
+title: "Etude de l'activité photosynthétique sur *Galaxea fascicularis* via une microélectrode à oxygène"
+author: "Jessica Save Garrido"
+date: ''
+output:
+  beamer_presentation:
+    df_print: kable
+    fonttheme: serif
+fontsize: 9pt
+subtitle: Première présentation \break Mise au point de la microélectrode \vfill \includegraphics[width=.16\textwidth,height=.2\textheight]{template/EcoNum-logo.pdf}
+fontfamily: mathpazo
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Positionnement de la sonde 
+
+```{r, echo=FALSE, message=FALSE, results='hide'}
+source("../../scripts/analyse_micro2_jsv.R")
+```
+
