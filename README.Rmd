@@ -28,7 +28,7 @@ knitr::opts_chunk$set(
 
 ## Résumé
 
-L'étude des réponses écophysiologiques des coraux à des stress par des méthodes non destructives et en mésocosmes (limite du nombre d'individus), requiert l'utilisation de techniques et d'outils particuliers. La mesure précise de la production d'oxygène localement est un outils permettant de déterminer la photosynthèse.
+L'étude des réponses écophysiologiques des coraux à des stress par des méthodes non destructives et en mésocosmes (limite du nombre d'individus), requiert l'utilisation de techniques et d'outils particuliers. La mesure précise de la production d'oxygène localement via une [microsonde à oxygène](https://www.pyroscience.com/retractable-fiber-optic-oxygen-sensors.html)est un outils permettant de déterminer la photosynthèse.
 
 ## Organisation
 
