@@ -23,7 +23,7 @@ Les graphiques dans le manuscrit seront :
 # Graphiques pour le manuscrits
 
 ```{r}
-source("../scripts/micro_o2_jessica_phg.R")
+source("../../R/micro_o2_jessica_phg.R")
 library(tidyverse)
 ```
 
@@ -35,7 +35,7 @@ L'expérience **t12** consiste dans :
 
 
 ```{r}
-t12 <-microO2_import2(file = "../data/T12/T121310.txt")
+t12 <-microO2_import2(file = "../../../data/raw/raw/T12/T121310.txt")
 vec <- data_frame( temps = c(0, 99, 202, 300, 404), distance = c(0, 1, 0, 1, 0))
 vec$distance <- as.factor(vec$distance)
 
@@ -54,7 +54,7 @@ ggplot(data = t12)+
 
 
 ```{r}
-t19 <-microO2_import2(file = "../data/T19/T192010.txt") 
+t19 <-microO2_import2(file = "../../../data/raw/raw/T19/T192010.txt") 
 #vec <- data_frame( vec = c(0:367))
 library(tibble)
 dist <- tribble(
@@ -81,7 +81,7 @@ ggplot(data = t19)+
 ```
 
 ```{r}
-t20 <-microO2_import2(file = "../data/T20/T202010.txt")
+t20 <-microO2_import2(file = "../../../data/raw/raw/T20/T202010.txt")
 
 dist <- tribble(
   ~temps,~distance,
@@ -111,7 +111,7 @@ ggplot(data = t20)+
 
 
 ```{r}
-t21 <-microO2_import2(file = "../data/T21/T212010.txt")
+t21 <-microO2_import2(file = "../../data/raw/T21/T212010.txt")
 
 dist <- tribble(
   ~temps,~distance,
@@ -144,7 +144,7 @@ ggplot(data = t21)+
 
 
 ```{r}
-t28 <-microO2_import2(file = "../data/T28/T282010.txt")
+t28 <-microO2_import2(file = "../../data/raw/T28/T282010.txt")
 
 dist <- tribble(
   ~temps,~distance,
@@ -171,7 +171,7 @@ ggplot(data = t28)+
 
 
 ```{r}
-t40 <-microO2_import2(file = "../data/T40/T40.txt")
+t40 <-microO2_import2(file = "../../data/raw/T40/T40.txt")
 ggplot(data = t40)+
   geom_line(mapping = aes(x = temps, y = O2)) +
   theme_classic()+
@@ -184,7 +184,7 @@ ggplot(data = t40)+
 
 
 ```{r}
-t31 <-microO2_import2(file = "../data/T31/T312710.txt")
+t31 <-microO2_import2(file = "../../data/raw/T31/T312710.txt")
 
 dist <- tribble(
   ~temps,~distance,
@@ -211,9 +211,9 @@ ggplot(data = t31)+
 
 
 ```{r}
-t43 <-microO2_import2(file = "../data/T43/T430311.txt")
+t43 <-microO2_import2(file = "../../data/raw/T43/T430311.txt")
 t43$num <-as.numeric(t43$Date)
-T430311_light <- read_csv("../data/T43/T430311_light.csv")
+T430311_light <- read_csv("../../data/raw/T43/T430311_light.csv")
 
 T430311_light%>%rename(Date = time)->T430311_light
 T430311_light$num <-as.numeric(T430311_light$Date)
@@ -244,12 +244,12 @@ library(readr)
 library(tidyverse)
 
 #importation
-t43 <-microO2_import2(file = "../data/T43/T430311.txt")
+t43 <-microO2_import2(file = "../../data/raw/T43/T430311.txt")
 #creation d'une nouvelle variable en character
 t43$time <-as.character(t43$Date)
 
 #importation et transfo de la date 
-T43_light <- read_csv("../data/T43/T430311_light.csv")
+T43_light <- read_csv("../../data/raw/T43/T430311_light.csv")
 T43_light%>%rename(Date = time)->T43_light
 T43_light$time <- as.character(T43_light$Date)
 

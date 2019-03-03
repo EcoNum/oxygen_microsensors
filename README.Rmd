@@ -7,12 +7,16 @@ output:
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, message=FALSE, results='hide', warning=FALSE}
 knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
   collapse = TRUE,
   comment = "#>",
   fig.path = "README-"
 )
+SciViews::R
 ```
 
 # Mise au point d'une microsonde optique à Oxygène 
@@ -30,6 +34,7 @@ knitr::opts_chunk$set(
 
 L'étude des réponses écophysiologiques des coraux à des stress par des méthodes non destructives et en mésocosmes (limite du nombre d'individus), requiert l'utilisation de techniques et d'outils particuliers. La mesure précise de la production d'oxygène localement via une [microsonde à oxygène](https://www.pyroscience.com/retractable-fiber-optic-oxygen-sensors.html)est un outils permettant de déterminer la photosynthèse.
 
+
 ## Organisation
 
 Ce dépot couvre une partie des expériences réalisées par Jessica Save Garrido
@@ -38,7 +43,56 @@ en vue de l’obtention du grade académique du bachelier en agronomie orientati
 
 - Mise en place d’une technique de mesure de photosynthèse chez les coraux scléractiniaires : application à *Galaxea fascicularis* (L.) 1767
 
-Le manuscrit de ce travail ce trouve dans le dossier `memoir` du dossier `analysis`
+Le manuscrit de ce travail ce trouve dans le dossier `memoir` du dossier `analysis`. L'un des résultats particulièrement intéressant de ce travail est la variation de l' oxygène dissous en fonction de la distance par rapport à l'épiderme de la bouture.
+
+```{r}
+t40 <- read("data/t40.rds")
+
+#Function to create a dataframe that convert time by distance
+distance_by_time <-function(N, distance_step, distance_start, time_step, time_start){
+  n <-c(0:N) #N is the number of distance 's step
+  time <- (n*time_step)+time_start #distance_step is the time between each step, time_start is the time's beginning
+  dist <- (n*distance_step)+distance_start #distance_step is the distance between each step, the distance must be regular, the distance_start is the distance's beginning
+  data.frame(n = n, time = time, distance = dist) #create a data frame with 3 vectors
+}
+
+dist <-distance_by_time(N = 40,
+                         distance_step = 10, distance_start = 0,
+                         time_step = 15,time_start = 0)
+dist1 <-distance_by_time(N = 27,distance_step = 40,distance_start = 400,time_step = 15,time_start = 600)
+
+dist <- bind_rows(dist, dist1[ -c(1), ])
+remove(dist1)
+
+t40$time <- round(t40$time, digits = 0)
+
+t40 ->.;
+  left_join(., dist, by = "time") -> .;
+  fill(., distance, .direction = "down")  -> t40
+remove(dist)
+
+t40$dist_factor <- as.factor(t40$distance)
+t40$dist_factor <- as.ordered(t40$dist_factor)
+
+t40%>%group_by(dist_factor)%>%
+  slice(-c(1:4, n()))%>%
+  summarise(mean = mean(O2), sd = sd(O2), longueur = length(O2)) -> .
+
+.$dist <- as.numeric(as.character(.$dist_factor))
+
+#summary(.)
+b_40 <- ggplot(data = ., mapping = aes(x = dist, y = mean))+
+  geom_point(size = 0.6)+
+  geom_errorbar(aes(ymin=mean-sd, ymax=mean+sd), width=.2, position=position_dodge(0.05))+
+  geom_hline(yintercept = 7.2, color = "blue", linetype = "dotdash")+
+  theme_classic()
+```
+
+```{r}
+b_40 + labs( y = "Concentration moyenne \n en oxygène dissous (mg/L)", x = "Distance (µm)", caption = "Profil de la teneur en oxygène dissous en fonction de la distance par rapport à l'épiderme. \n La teneur en oxygène dissous dans l'eau est représentée par la ligne bleue. ") +
+  theme(plot.caption = element_text(hjust = 0.5))
+```
+
 
 ## News
 

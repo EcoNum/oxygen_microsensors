@@ -3,17 +3,14 @@ title: "Analyse des résultats obtenus avec la micro-électrode à oxygène"
 author: "Jessica Save Garrido & Engels Guyliann"
 output:
   html_notebook: default
-  word_document: default
-  pdf_document: default
-  html_document: default
 abstract: Traitement généraux de l'ensemble des analyses réalisées dans le cadre du
   TFE de Jessica Save Garrido portant sur l'impact d'un stress thermique sur la photosynthèse
 ---
 
-
+c
 
 ```{r}
-source(file = "../scripts/micro_o2_jessica_phg.R")
+source(file = "../../R/micro_o2_jessica_phg.R")
 ```
 
 
@@ -27,10 +24,10 @@ source(file = "../scripts/micro_o2_jessica_phg.R")
 * Avancée progressive vers le coenasarc
 
 ```{r, echo=FALSE, message=FALSE, results='hide'}
-t1 <-microO2_import(file = "../data/T1/T11210.txt")
-t2 <-microO2_import(file = "../data/T2/T21210.txt")
-t3 <-microO2_import(file = "../data/T3/T31210.txt")
-t4 <-microO2_import(file = "../data/T4/T41210_A.txt")
+t1 <-microO2_import(file = "../../../data/raw/raw/T1/T11210.txt")
+t2 <-microO2_import(file = "../../../data/raw/raw/T2/T21210.txt")
+t3 <-microO2_import(file = "../../../data/raw/raw/T3/T31210.txt")
+t4 <-microO2_import(file = "../../../data/raw/raw/T4/T41210_A.txt")
 ```
 
 ```{r}
@@ -61,10 +58,10 @@ ggarrange(a,b,c,d)
 
 
 ```{r, echo=FALSE, message=FALSE, results='hide'}
-t4a <-microO2_import(file = "../data/T4/T41210_A.txt")
-t4b <-microO2_import(file = "../data/T4/T41210_B.txt")
-t4c <-microO2_import(file = "../data/T4/T41210_C.txt")
-t4d <-microO2_import(file = "../data/T4/T41210_D.txt")
+t4a <-microO2_import(file = "../../data/raw/T4/T41210_A.txt")
+t4b <-microO2_import(file = "../../data/raw/T4/T41210_B.txt")
+t4c <-microO2_import(file = "../../data/raw/T4/T41210_C.txt")
+t4d <-microO2_import(file = "../../data/raw/T4/T41210_D.txt")
 ```
  
  * 0-50 dans l'eau
@@ -102,14 +99,14 @@ ggarrange(a,b,c,d, labels = "auto")
 
 
 ```{r, echo=FALSE, message=FALSE, results='hide'}
-t5 <-microO2_import(file = "../data/T5/T51210.txt")
-t6 <-microO2_import(file = "../data/T6/T61210.txt")
-#t7 <-microO2_import(file = "../data/T7/T71210.txt")
+t5 <-microO2_import(file = "../../data/raw/T5/T51210.txt")
+t6 <-microO2_import(file = "../../data/raw/T6/T61210.txt")
+#t7 <-microO2_import(file = "../../data/raw/T7/T71210.txt")
   #rejeter car erreur : pas top avec mouvement de la microsonde
-t8 <-microO2_import(file = "../data/T8/T81310.txt")
-t9 <-microO2_import(file = "../data/T9/T91310.txt")
-t10 <-microO2_import(file = "../data/T10/T101310.txt")
-#t11 <-microO2_import(file = "../data/T10/T111310.txt")
+t8 <-microO2_import(file = "../../data/raw/T8/T81310.txt")
+t9 <-microO2_import(file = "../../data/raw/T9/T91310.txt")
+t10 <-microO2_import(file = "../../data/raw/T10/T101310.txt")
+#t11 <-microO2_import(file = "../../data/raw/T10/T111310.txt")
 ```
 
 ```{r}
@@ -146,7 +143,7 @@ ggarrange(a,b,c,d,e, ncol = 2, nrow = 3, labels = "auto")
 # Test12 : premier profil 0 PAR
 
 ```{r, echo=FALSE, message=FALSE, results='hide'}
-t12 <-microO2_import(file = "../data/T12/T121310.txt")
+t12 <-microO2_import(file = "../../data/raw/T12/T121310.txt")
 ```
 
 
@@ -180,9 +177,9 @@ a
 *idem manip test5 à test10
 
 ```{r, echo=FALSE, message=FALSE, results='hide'}
-t13 <-microO2_import(file = "../data/T13/T131810.txt")
-t14 <-microO2_import(file = "../data/T14/T141810.txt")
-t15 <-microO2_import(file = "../data/T15/T151810.txt")
+t13 <-microO2_import(file = "../../data/raw/T13/T131810.txt")
+t14 <-microO2_import(file = "../../data/raw/T14/T141810.txt")
+t15 <-microO2_import(file = "../../data/raw/T15/T151810.txt")
 ```
 ```{r}
 mouv <-c(50, 100, 150 ,200, 225, 250, 350, 400)
@@ -211,7 +208,7 @@ ggarrange(a,b,c, labels = "auto")
 * temps non déterminé mais sur plateau graphique du programme de la sonde 
 
 ```{r, echo=FALSE, message=FALSE, results='hide'}
-t16 <-microO2_import(file = "../data/T16/T161810.txt")
+t16 <-microO2_import(file = "../../data/raw/T16/T161810.txt")
 ```
 
 
@@ -232,13 +229,13 @@ ggplot(t16)+
 # Test 17
 
 ```{r, echo=FALSE, message=FALSE, results='hide'}
-t17 <-microO2_import(file = "../data/T17/T172010.txt")
+t17 <-microO2_import(file = "../../data/raw/T17/T172010.txt")
 
-t19 <-microO2_import(file = "../data/T19/T192010.txt")
+t19 <-microO2_import(file = "../../data/raw/T19/T192010.txt")
 
-t20 <-microO2_import(file = "../data/T20/T202010.txt")
+t20 <-microO2_import(file = "../../data/raw/T20/T202010.txt")
 
-t21 <-microO2_import(file = "../data/T21/T212010.txt")
+t21 <-microO2_import(file = "../../data/raw/T21/T212010.txt")
 ```
 
 
@@ -315,12 +312,12 @@ ggplot(t21)+
 # test distance par rapport au coenosarc
 
 ```{r}
-t23 <-microO2_import(file = "../data/T23/T232010.txt")
-t24 <-microO2_import(file = "../data/T24/T242010.txt")
-t25 <-microO2_import(file = "../data/T25/T252010.txt")
-t26 <-microO2_import(file = "../data/T26/T262010.txt")
-t27 <-microO2_import(file = "../data/T27/T272010.txt")
-t28 <-microO2_import(file = "../data/T28/T282010.txt")
+t23 <-microO2_import(file = "../../data/raw/T23/T232010.txt")
+t24 <-microO2_import(file = "../../data/raw/T24/T242010.txt")
+t25 <-microO2_import(file = "../../data/raw/T25/T252010.txt")
+t26 <-microO2_import(file = "../../data/raw/T26/T262010.txt")
+t27 <-microO2_import(file = "../../data/raw/T27/T272010.txt")
+t28 <-microO2_import(file = "../../data/raw/T28/T282010.txt")
 ```
 
 ```{r}
@@ -379,8 +376,8 @@ ggplot(t28)+
 # test lumière ON/OFF sur coenosarc
 
 ```{r, echo=FALSE, message=FALSE, results='hide'}
-t29 <-microO2_import(file = "../data/T29/T292010.txt")
-t30 <-microO2_import(file = "../data/T30/T302010.txt")
+t29 <-microO2_import(file = "../../data/raw/T29/T292010.txt")
+t30 <-microO2_import(file = "../../data/raw/T30/T302010.txt")
 ```
 
 ```{r}
@@ -394,8 +391,8 @@ ggplot(t30)+
 
 
 ```{r}
-t31 <-microO2_import(file = "../data/T31/T312710.txt")
-t34 <-microO2_import(file = "../data/T34/T342710.txt")
+t31 <-microO2_import(file = "../../data/raw/T31/T312710.txt")
+t34 <-microO2_import(file = "../../data/raw/T34/T342710.txt")
 ```
 ```{r}
 library(tidyverse)
@@ -447,11 +444,11 @@ ggplot(t34)+
 
 
 ```{r, echo=FALSE, message=FALSE, results='hide'}
-t35 <-microO2_import(file = "../data/T35/T352710.txt")
-t36 <-microO2_import(file = "../data/T36/T362710.txt")
-t37 <-microO2_import(file = "../data/T37/T372710.txt")
-t38 <-microO2_import(file = "../data/T38/T382710.txt")
-t39 <-microO2_import(file = "../data/T39/T392710.txt")
+t35 <-microO2_import(file = "../../data/raw/T35/T352710.txt")
+t36 <-microO2_import(file = "../../data/raw/T36/T362710.txt")
+t37 <-microO2_import(file = "../../data/raw/T37/T372710.txt")
+t38 <-microO2_import(file = "../../data/raw/T38/T382710.txt")
+t39 <-microO2_import(file = "../../data/raw/T39/T392710.txt")
 ```
 
 
@@ -474,9 +471,9 @@ ggplot(t39)+
 Après s'être apperçu que l'on déplaçait la sonde de 1mm au lieu de 100 $\mu m$, on relance l'expérience
 
 ```{r}
-t40 <-microO2_import2(file = "../data/T40/T40.txt")
+t40 <-microO2_import2(file = "../../data/raw/T40/T40.txt")
 
-t42 <-microO2_import2(file = "../data/T42/T420311.txt")
+t42 <-microO2_import2(file = "../../data/raw/T42/T420311.txt")
 library(tidyverse)
 ggplot(t40)+
   geom_line(mapping = aes(x = temps, y = O2))
@@ -497,12 +494,12 @@ Première remarque sur l'expérience en partant du milieu et en avancant vers le
 
 
 ```{r}
-t43 <-microO2_import2(file = "../data/T43/T430311.txt")
+t43 <-microO2_import2(file = "../../data/raw/T43/T430311.txt")
 t43$num <-as.numeric(t43$Date)
 
 library(readr)
 library(tidyverse)
-T430311_light <- read_csv("../data/T43/T430311_light.csv")
+T430311_light <- read_csv("../../data/raw/T43/T430311_light.csv")
 T430311_light%>%rename(Date = time)->T430311_light
 T430311_light$num <-as.numeric(T430311_light$Date)
 #objectif faire coller le document sur le temps et le document sur l'éclairage
@@ -531,19 +528,19 @@ ggplot(data = t43_test, mapping = aes(x = temps, y = O2, color = light))+
 
 
 ```{r}
-t45 <-microO2_import2(file = "../data/T45/T450711.txt")
-t46 <-microO2_import2(file = "../data/T46/T460711.txt")
-t45 <-microO2_import2(file = "../data/T45/T450711.txt")
+t45 <-microO2_import2(file = "../../data/raw/T45/T450711.txt")
+t46 <-microO2_import2(file = "../../data/raw/T46/T460711.txt")
+t45 <-microO2_import2(file = "../../data/raw/T45/T450711.txt")
 
-t53 <-microO2_import2(file = "../data/T53/T531011.txt")
-t54 <-microO2_import2(file = "../data/T54/T541011.txt")
-t55 <-microO2_import2(file = "../data/T55/T551011.txt")
+t53 <-microO2_import2(file = "../../data/raw/T53/T531011.txt")
+t54 <-microO2_import2(file = "../../data/raw/T54/T541011.txt")
+t55 <-microO2_import2(file = "../../data/raw/T55/T551011.txt")
 
-t57 <-microO2_import2(file = "../data/T57/T571311.txt")
-t58 <-microO2_import2(file = "../data/T58/T581311.txt")
+t57 <-microO2_import2(file = "../../data/raw/T57/T571311.txt")
+t58 <-microO2_import2(file = "../../data/raw/T58/T581311.txt")
 
-t60 <-microO2_import2(file = "../data/T60/T601311.txt")
-t61 <-microO2_import2(file = "../data/T61/T611311.txt")
+t60 <-microO2_import2(file = "../../data/raw/T60/T601311.txt")
+t61 <-microO2_import2(file = "../../data/raw/T61/T611311.txt")
 
 
 library(tidyverse)
@@ -596,12 +593,12 @@ library(readr)
 library(tidyverse)
 
 #importation
-t70 <-microO2_import2(file = "../data/T70/T701112.txt")
+t70 <-microO2_import2(file = "../../data/raw/T70/T701112.txt")
 #creation d'une nouvelle variable en character
 t70$time <-as.character(t70$Date)
 
 #importation et transfo de la date 
-T70_light <- read_csv("../data/T70/light.csv")
+T70_light <- read_csv("../../data/raw/T70/light.csv")
 T70_light%>%rename(Date = time)->T70_light
 T70_light$time <- as.character(T70_light$Date)
 
@@ -630,7 +627,7 @@ ggplot(data = t70_comb, mapping = aes(x = temps, y = O2, color = light))+
 
 ```{r}
 #importation
-t71 <-microO2_import2(file = "../data/T71/T711112.txt")
+t71 <-microO2_import2(file = "../../data/raw/T71/T711112.txt")
 ggplot(data = t71, mapping = aes(x = temps, y = O2))+
   geom_line()
 ```
@@ -650,12 +647,12 @@ library(readr)
 library(tidyverse)
 
 #importation
-t72 <-microO2_import2(file = "../data/t72/t721112.txt")
+t72 <-microO2_import2(file = "../../data/raw/t72/t721112.txt")
 #creation d'une nouvelle variable en character
 t72$time <-as.character(t72$Date)
 
 #importation et transfo de la date 
-t72_light <- read_csv("../data/t72/light.csv")
+t72_light <- read_csv("../../data/raw/t72/light.csv")
 t72_light%>%rename(Date = time)->t72_light
 t72_light$time <- as.character(t72_light$Date)
 
@@ -682,12 +679,12 @@ library(readr)
 library(tidyverse)
 
 #importation
-t73 <-microO2_import2(file = "../data/t73/t731112.txt")
+t73 <-microO2_import2(file = "../../data/raw/t73/t731112.txt")
 #creation d'une nouvelle variable en character
 t73$time <-as.character(t73$Date)
 
 #importation et transfo de la date 
-t73_light <- read_csv("../data/t73/light.csv")
+t73_light <- read_csv("../../data/raw/t73/light.csv")
 t73_light%>%rename(Date = time)->t73_light
 t73_light$time <- as.character(t73_light$Date)
 
@@ -717,12 +714,12 @@ library(readr)
 library(tidyverse)
 
 #importation
-t74 <-microO2_import2(file = "../data/t74/t741112.txt")
+t74 <-microO2_import2(file = "../../data/raw/t74/t741112.txt")
 #creation d'une nouvelle variable en character
 t74$time <-as.character(t74$Date)
 
 #importation et transfo de la date 
-t74_light <- read_csv("../data/t74/light.csv")
+t74_light <- read_csv("../../data/raw/t74/light.csv")
 t74_light%>%rename(Date = time)->t74_light
 t74_light$time <- as.character(t74_light$Date)
 
@@ -755,12 +752,12 @@ library(readr)
 library(tidyverse)
 
 #importation
-t75 <-microO2_import2(file = "../data/t75/t751112.txt")
+t75 <-microO2_import2(file = "../../data/raw/t75/t751112.txt")
 #creation d'une nouvelle variable en character
 t75$time <-as.character(t75$Date)
 
 #importation et transfo de la date 
-t75_light <- read_csv("../data/t75/light.csv")
+t75_light <- read_csv("../../data/raw/t75/light.csv")
 t75_light%>%rename(Date = time)->t75_light
 t75_light%>%mutate(Date = Date + 1) -> t75_light
 t75_light$time <- as.character(t75_light$Date)
@@ -795,12 +792,12 @@ library(readr)
 library(tidyverse)
 
 #importation
-t76 <-microO2_import2(file = "../data/t76/t761112.txt")
+t76 <-microO2_import2(file = "../../data/raw/t76/t761112.txt")
 #creation d'une nouvelle variable en character
 t76$time <-as.character(t76$Date)
 
 #importation et transfo de la date 
-t76_light <- read_csv("../data/t76/light.csv")
+t76_light <- read_csv("../../data/raw/t76/light.csv")
 t76_light%>%rename(Date = time)->t76_light
 #t76_light%>%mutate(Date = Date + 1) -> t76_light
 t76_light$time <- as.character(t76_light$Date)
@@ -837,12 +834,12 @@ library(readr)
 library(tidyverse)
 
 #importation
-t77 <-microO2_import2(file = "../data/t77/t771112.txt")
+t77 <-microO2_import2(file = "../../data/raw/t77/t771112.txt")
 #creation d'une nouvelle variable en character
 t77$time <-as.character(t77$Date)
 
 #importation et transfo de la date 
-t77_light <- read_csv("../data/t77/light.csv")
+t77_light <- read_csv("../../data/raw/t77/light.csv")
 t77_light%>%rename(Date = time)->t77_light
 #t77_light%>%mutate(Date = Date + 1) -> t77_light
 t77_light$time <- as.character(t77_light$Date)
@@ -878,12 +875,12 @@ library(readr)
 library(tidyverse)
 
 #importation
-t78 <-microO2_import2(file = "../data/t78/t781112.txt")
+t78 <-microO2_import2(file = "../../data/raw/t78/t781112.txt")
 #creation d'une nouvelle variable en character
 t78$time <-as.character(t78$Date)
 
 #importation et transfo de la date 
-t78_light <- read_csv("../data/t78/light.csv")
+t78_light <- read_csv("../../data/raw/t78/light.csv")
 t78_light%>%rename(Date = time)->t78_light
 #t78_light%>%mutate(Date = Date + 1) -> t78_light
 t78_light$time <- as.character(t78_light$Date)
@@ -918,12 +915,12 @@ library(readr)
 library(tidyverse)
 
 #importation
-t79 <-microO2_import2(file = "../data/t79/t791212.txt")
+t79 <-microO2_import2(file = "../../data/raw/t79/t791212.txt")
 #creation d'une nouvelle variable en character
 t79$time <-as.character(t79$Date)
 
 #importation et transfo de la date 
-t79_light <- read_csv("../data/t79/light.csv")
+t79_light <- read_csv("../../data/raw/t79/light.csv")
 t79_light%>%rename(Date = time)->t79_light
 #t79_light%>%mutate(Date = Date + 1) -> t79_light
 t79_light$time <- as.character(t79_light$Date)
@@ -953,12 +950,12 @@ library(readr)
 library(tidyverse)
 
 #importation
-t80 <-microO2_import2(file = "../data/t80/t801212.txt")
+t80 <-microO2_import2(file = "../../data/raw/t80/t801212.txt")
 #creation d'une nouvelle variable en character
 t80$time <-as.character(t80$Date)
 
 #importation et transfo de la date 
-t80_light <- read_csv("../data/t80/light.csv")
+t80_light <- read_csv("../../data/raw/t80/light.csv")
 t80_light%>%rename(Date = time)->t80_light
 #t80_light%>%mutate(Date = Date + 1) -> t80_light
 t80_light$time <- as.character(t80_light$Date)
@@ -988,7 +985,7 @@ library(readr)
 library(tidyverse)
 
 #importation
-t81 <-microO2_import2(file = "../data/t81/t811212.txt")
+t81 <-microO2_import2(file = "../../data/raw/t81/t811212.txt")
 
 # petit graphique des données avec la lumière 
 ggplot(data = t81, mapping = aes(x = temps, y = O2))+
@@ -1007,12 +1004,12 @@ library(readr)
 library(tidyverse)
 
 #importation
-t82 <-microO2_import2(file = "../data/t82/t821212.txt")
+t82 <-microO2_import2(file = "../../data/raw/t82/t821212.txt")
 #creation d'une nouvelle variable en character
 t82$time <-as.character(t82$Date)
 
 #importation et transfo de la date 
-t82_light <- read_csv("../data/t82/light.csv")
+t82_light <- read_csv("../../data/raw/t82/light.csv")
 t82_light%>%rename(Date = time)->t82_light
 #t82_light%>%mutate(Date = Date + 1) -> t82_light
 t82_light$time <- as.character(t82_light$Date)
@@ -1036,7 +1033,7 @@ ggplot(data = t82_comb, mapping = aes(x = temps, y = O2, color = light))+
 
 
 ```{r}
-t87 <-microO2_import2(file = "../data/t87/t871912.txt")
+t87 <-microO2_import2(file = "../../data/raw/t87/t871912.txt")
 
 library(tidyverse)
 
@@ -1077,7 +1074,7 @@ ggplot(t87, mapping = aes(x = distance, y = O2))+
 
 
 ```{r}
-t88 <-microO2_import2(file = "../data/t88/t881912.txt")
+t88 <-microO2_import2(file = "../../data/raw/t88/t881912.txt")
 
 library(tidyverse)
 
@@ -1133,7 +1130,7 @@ ggplot(t88, mapping = aes(x = distance, y = O2))+
 # t89 variation de l'intensité de la lumière 
 
 ```{r}
-t96 <-microO2_import2(file = "../data/t96/962112.txt")
+t96 <-microO2_import2(file = "../../data/raw/t96/962112.txt")
 
 ggplot(t96, mapping = aes(x = temps, y = O2))+
   geom_line()

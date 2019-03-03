@@ -14,7 +14,7 @@ output:
 
 ```{r}
 knitr::opts_chunk$set(echo = TRUE, message = TRUE, warning = TRUE)
-source(file = "../scripts/micro_o2_jessica_phg.R")
+source(file = "../../R/micro_o2_jessica_phg.R")
 library(tidyverse)
 library(ggpubr)
 
@@ -26,7 +26,7 @@ Cet manip avait pour objectif de mettre en avant le profil en oxygène dissous e
 
 ```{r}
 
-t40 <-microO2_import3(file = "../data/T40/T40.txt") # Import raw data for experiment t40
+t40 <-microO2_import3(file = "../../data/raw/T40/T40.txt") # Import raw data for experiment t40
 
 #write_rds(x = t40, path = "../Cache/t40.rds") # only for short presentation in lab meeting
 
@@ -88,7 +88,7 @@ b_40 + labs( y = "Concentration moyenne \n en oxygène dissous (mg/L)", x = "Dis
 
 ```{r}
 
-t88 <-microO2_import2(file = "../data/t88/t881912.txt")
+t88 <-microO2_import2(file = "../../data/raw/t88/t881912.txt")
 
 library(tidyverse)
 
@@ -191,7 +191,7 @@ b_88 +
 ```{r}
 
 
-t42 <-microO2_import2(file = "../data/T42/T420311.txt")
+t42 <-microO2_import2(file = "../../data/raw/T42/T420311.txt")
 t42%>%filter(temps < 720)->t42
 
 #temps de 10 min transformé en secondes
@@ -281,7 +281,7 @@ b_42+
 
 ```{r}
 
-t87 <-microO2_import2(file = "../data/t87/t871912.txt")
+t87 <-microO2_import2(file = "../../data/raw/t87/t871912.txt")
 
 library(tidyverse)
 
@@ -380,7 +380,7 @@ b_87+
 
 
 ```{r}
-t31 <-microO2_import2(file = "../data/T31/T312710.txt")
+t31 <-microO2_import2(file = "../../data/raw/T31/T312710.txt")
 
 dist <- tribble(
   ~temps,~light,
@@ -427,12 +427,12 @@ library(readr)
 library(tidyverse)
 
 #importation
-t43 <-microO2_import2(file = "../data/T43/T430311.txt")
+t43 <-microO2_import2(file = "../../data/raw/T43/T430311.txt")
 #creation d'une nouvelle variable en character
 t43$time <-as.character(t43$Date)
 
 #importation et transfo de la date 
-T43_light <- read_csv("../data/T43/T430311_light.csv")
+T43_light <- read_csv("../../data/raw/T43/T430311_light.csv")
 T43_light%>%rename(Date = time)->T43_light
 T43_light$time <- as.character(T43_light$Date)
 
@@ -568,12 +568,12 @@ knitr::kable(test)
 ```{r}
 
 #importation
-t70 <-microO2_import2(file = "../data/T70/T701112.txt")
+t70 <-microO2_import2(file = "../../data/raw/T70/T701112.txt")
 #creation d'une nouvelle variable en character
 t70$time <-as.character(t70$Date)
 
 #importation et transfo de la date 
-T70_light <- read_csv("../data/T70/light.csv")
+T70_light <- read_csv("../../data/raw/T70/light.csv")
 T70_light%>%rename(Date = time)->T70_light
 T70_light$time <- as.character(T70_light$Date)
 
@@ -650,7 +650,7 @@ remove(a1, a2, a3, a4, a5, a6, a7)
 
 ```{r}
 #importation
-t71 <-microO2_import2(file = "../data/T71/T711112.txt")
+t71 <-microO2_import2(file = "../../data/raw/T71/T711112.txt")
 
 dist <- tribble(
   ~temps,~light,
@@ -717,7 +717,7 @@ remove(a1, a2, a3, a4, a5, a6, a7)
 
 
 ```{r}
-t72 <-microO2_import2(file = "../data/t72/t721112.txt")
+t72 <-microO2_import2(file = "../../data/raw/t72/t721112.txt")
 
 dist <- tribble(
   ~temps,~light,
@@ -785,7 +785,7 @@ remove(a1, a2, a3, a4, a5, a6, a7)
 
 
 ```{r}
-t73 <-microO2_import2(file = "../data/t73/t731112.txt")
+t73 <-microO2_import2(file = "../../data/raw/t73/t731112.txt")
 
 dist <- tribble(
   ~temps,~light,
@@ -855,12 +855,12 @@ remove(a1, a2, a3, a4, a5, a6, a7)
 
 ```{r}
 #importation
-t74 <-microO2_import2(file = "../data/t74/t741112.txt")
+t74 <-microO2_import2(file = "../../data/raw/t74/t741112.txt")
 #creation d'une nouvelle variable en character
 t74$time <-as.character(t74$Date)
 
 #importation et transfo de la date 
-t74_light <- read_csv("../data/t74/light.csv")
+t74_light <- read_csv("../../data/raw/t74/light.csv")
 t74_light%>%rename(Date = time)->t74_light
 t74_light$time <- as.character(t74_light$Date)
 
@@ -997,12 +997,12 @@ library(readr)
 library(tidyverse)
 
 #importation
-t77 <-microO2_import2(file = "../data/t77/t771112.txt")
+t77 <-microO2_import2(file = "../../data/raw/t77/t771112.txt")
 #creation d'une nouvelle variable en character
 t77$time <-as.character(t77$Date)
 
 #importation et transfo de la date 
-t77_light <- read_csv("../data/t77/light.csv")
+t77_light <- read_csv("../../data/raw/t77/light.csv")
 t77_light%>%rename(Date = time)->t77_light
 #t77_light%>%mutate(Date = Date + 1) -> t77_light
 t77_light$time <- as.character(t77_light$Date)

@@ -28,7 +28,9 @@ en vue de l’obtention du grade académique du bachelier en agronomie orientati
 
 -   Mise en place d’une technique de mesure de photosynthèse chez les coraux scléractiniaires : application à *Galaxea fascicularis* (L.) 1767
 
-Le manuscrit de ce travail ce trouve dans le dossier `memoir` du dossier `analysis`
+Le manuscrit de ce travail ce trouve dans le dossier `memoir` du dossier `analysis`. L'un des résultats particulièrement intéressant de ce travail est la variation de l' oxygène dissous en fonction de la distance par rapport à l'épiderme de la bouture.
+
+![](README-unnamed-chunk-3-1.png)
 
 News
 ----
